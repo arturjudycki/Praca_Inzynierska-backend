@@ -2,6 +2,7 @@ const express = require("express");
 const session = require("express-session");
 
 const usersRoute = require("./routes/users");
+const authRoute = require("./routes/auth");
 
 const store = new session.MemoryStore();
 
@@ -26,6 +27,7 @@ server.use((req, res, next) => {
 }); //middleware
 
 app.use("/users", usersRoute);
+app.use("/auth", authRoute);
 
 server.listen(8000, () => {
   console.log("http://localhost:8000");
