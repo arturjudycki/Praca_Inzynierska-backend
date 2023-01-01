@@ -16,33 +16,34 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `rate`
+-- Table structure for table `songs`
 --
 
-DROP TABLE IF EXISTS `rate`;
+DROP TABLE IF EXISTS `songs`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `rate` (
-  `idrate` int NOT NULL AUTO_INCREMENT,
-  `numerical_rating` int DEFAULT NULL,
-  `verbal_rating` varchar(45) DEFAULT NULL,
-  `rating_date` date NOT NULL,
-  `favourites` tinyint DEFAULT NULL,
-  `user_iduser` int NOT NULL,
-  PRIMARY KEY (`idrate`,`user_iduser`),
-  UNIQUE KEY `idrate_UNIQUE` (`idrate`),
-  KEY `fk_rate_user1_idx` (`user_iduser`),
-  CONSTRAINT `fk_rate_user1` FOREIGN KEY (`user_iduser`) REFERENCES `user` (`iduser`)
+CREATE TABLE `songs` (
+  `id_song` int NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL,
+  `duration` varchar(5) NOT NULL,
+  `music_album` int NOT NULL,
+  `artist` int NOT NULL,
+  PRIMARY KEY (`id_song`),
+  UNIQUE KEY `id_song_UNIQUE` (`id_song`),
+  KEY `fk_songs_music_albums1_idx` (`music_album`),
+  KEY `fk_songs_artists1_idx` (`artist`),
+  CONSTRAINT `fk_songs_artists1` FOREIGN KEY (`artist`) REFERENCES `artists` (`id_artist`),
+  CONSTRAINT `fk_songs_music_albums1` FOREIGN KEY (`music_album`) REFERENCES `music_albums` (`id_music_album`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `rate`
+-- Dumping data for table `songs`
 --
 
-LOCK TABLES `rate` WRITE;
-/*!40000 ALTER TABLE `rate` DISABLE KEYS */;
-/*!40000 ALTER TABLE `rate` ENABLE KEYS */;
+LOCK TABLES `songs` WRITE;
+/*!40000 ALTER TABLE `songs` DISABLE KEYS */;
+/*!40000 ALTER TABLE `songs` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -54,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-12-29 16:26:44
+-- Dump completed on 2023-01-01 19:35:26

@@ -16,34 +16,39 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `user`
+-- Table structure for table `rates`
 --
 
-DROP TABLE IF EXISTS `user`;
+DROP TABLE IF EXISTS `rates`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `user` (
-  `iduser` int NOT NULL AUTO_INCREMENT,
-  `username` varchar(45) NOT NULL,
-  `e-mail` varchar(64) NOT NULL,
-  `password` varchar(45) NOT NULL,
-  `first_name` varchar(45) DEFAULT NULL,
-  `last_name` varchar(45) DEFAULT NULL,
-  `user_type` enum('regular_user','editor','admin') NOT NULL,
-  PRIMARY KEY (`iduser`),
-  UNIQUE KEY `iduser_UNIQUE` (`iduser`),
-  UNIQUE KEY `username_UNIQUE` (`username`),
-  UNIQUE KEY `e-mail_UNIQUE` (`e-mail`)
+CREATE TABLE `rates` (
+  `id_rate` int NOT NULL AUTO_INCREMENT,
+  `numerical_rating` int DEFAULT NULL,
+  `verbal_rating` mediumtext,
+  `rating_date` date NOT NULL,
+  `favourites` tinyint DEFAULT NULL,
+  `song` int DEFAULT NULL,
+  `music_album` int DEFAULT NULL,
+  `user` int NOT NULL,
+  PRIMARY KEY (`id_rate`),
+  UNIQUE KEY `idrate_UNIQUE` (`id_rate`),
+  KEY `fk_rates_users1_idx` (`user`),
+  KEY `fk_rates_songs1_idx` (`song`),
+  KEY `fk_rates_music_albums1_idx` (`music_album`),
+  CONSTRAINT `fk_rates_music_albums1` FOREIGN KEY (`music_album`) REFERENCES `music_albums` (`id_music_album`),
+  CONSTRAINT `fk_rates_songs1` FOREIGN KEY (`song`) REFERENCES `songs` (`id_song`),
+  CONSTRAINT `fk_rates_users1` FOREIGN KEY (`user`) REFERENCES `users` (`id_user`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `user`
+-- Dumping data for table `rates`
 --
 
-LOCK TABLES `user` WRITE;
-/*!40000 ALTER TABLE `user` DISABLE KEYS */;
-/*!40000 ALTER TABLE `user` ENABLE KEYS */;
+LOCK TABLES `rates` WRITE;
+/*!40000 ALTER TABLE `rates` DISABLE KEYS */;
+/*!40000 ALTER TABLE `rates` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -55,4 +60,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-12-29 16:26:43
+-- Dump completed on 2023-01-01 19:35:27
