@@ -36,8 +36,8 @@ CREATE TABLE `rates` (
   KEY `fk_rates_users1_idx` (`user`),
   KEY `fk_rates_songs1_idx` (`song`),
   KEY `fk_rates_music_albums1_idx` (`music_album`),
-  CONSTRAINT `fk_rates_music_albums1` FOREIGN KEY (`music_album`) REFERENCES `music_albums` (`id_music_album`),
-  CONSTRAINT `fk_rates_songs1` FOREIGN KEY (`song`) REFERENCES `songs` (`id_song`),
+  CONSTRAINT `fk_rates_music_albums1` FOREIGN KEY (`music_album`) REFERENCES `music_albums` (`id_music_album`) ON DELETE CASCADE,
+  CONSTRAINT `fk_rates_songs1` FOREIGN KEY (`song`) REFERENCES `songs` (`id_song`) ON DELETE CASCADE ON UPDATE RESTRICT,
   CONSTRAINT `fk_rates_users1` FOREIGN KEY (`user`) REFERENCES `users` (`id_user`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -60,4 +60,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-01-01 19:35:27
+-- Dump completed on 2023-01-02  1:16:23

@@ -32,8 +32,8 @@ CREATE TABLE `songs` (
   UNIQUE KEY `id_song_UNIQUE` (`id_song`),
   KEY `fk_songs_music_albums1_idx` (`music_album`),
   KEY `fk_songs_artists1_idx` (`artist`),
-  CONSTRAINT `fk_songs_artists1` FOREIGN KEY (`artist`) REFERENCES `artists` (`id_artist`),
-  CONSTRAINT `fk_songs_music_albums1` FOREIGN KEY (`music_album`) REFERENCES `music_albums` (`id_music_album`)
+  CONSTRAINT `fk_songs_artists1` FOREIGN KEY (`artist`) REFERENCES `artists` (`id_artist`) ON DELETE CASCADE,
+  CONSTRAINT `fk_songs_music_albums1` FOREIGN KEY (`music_album`) REFERENCES `music_albums` (`id_music_album`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -55,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-01-01 19:35:26
+-- Dump completed on 2023-01-02  1:16:22
