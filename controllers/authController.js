@@ -1,7 +1,8 @@
 const { hashPassword, comparePassword } = require("../utils/hashing");
 const { validationResult } = require("express-validator");
+const db = require("../database");
 
-register_post = (req, res) => {
+register_post = async (req, res) => {
   const errors = validationResult(req);
 
   if (!errors.isEmpty() && errors.errors[0].param === "username") {
@@ -23,10 +24,28 @@ register_post = (req, res) => {
     return res.status(400).send({ msg: "Passwords must be the same." });
   }
 
-  const { username, email } = req.body;
-  const password = hashPassword(req.body.password);
-  // insert do db
-  res.status(201).send({ msg: "User have been created" });
+  try {
+    const { username, email } = req.body;
+    const password = hashPassword(req.body.password);
+    const isUsername = await db.usernameExist(username);
+    const isEmail = await db.emailExist(email);
+    if (isUsername.length === 1) {
+      return res
+        .status(400)
+        .send({ msg: "User with this username already exists" });
+    } else if (isEmail.length === 1) {
+      return res
+        .status(400)
+        .send({ msg: "User with this email already exists" });
+    } else {
+      const user = await db.registerUser(username, email, password);
+      console.log(user);
+      return res.status(201).send({ msg: "User have been created" });
+    }
+  } catch (e) {
+    console.log(e);
+    return res.sendStatus(500);
+  }
 };
 
 login_post = (req, res) => {

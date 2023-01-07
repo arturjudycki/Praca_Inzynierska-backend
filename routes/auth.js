@@ -21,6 +21,6 @@ router.post(
   auth_controller.register_post
 );
 
-router.post("/login", (req, res) => {});
+// router.post("/login", auth_controller.login_post);
 
 module.exports = router;
