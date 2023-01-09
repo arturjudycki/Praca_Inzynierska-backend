@@ -16,33 +16,27 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `music_albums`
+-- Table structure for table `sessions`
 --
 
-DROP TABLE IF EXISTS `music_albums`;
+DROP TABLE IF EXISTS `sessions`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `music_albums` (
-  `id_music_album` int NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) NOT NULL,
-  `cover` varchar(255) DEFAULT NULL,
-  `release_date` date NOT NULL,
-  `duration` varchar(45) NOT NULL,
-  `type_of_album` enum('studio_album','live_album','compilation_album','EP') NOT NULL,
-  `genre` varchar(255) NOT NULL,
-  `record_label` varchar(255) NOT NULL,
-  PRIMARY KEY (`id_music_album`),
-  UNIQUE KEY `idmusic-album_UNIQUE` (`id_music_album`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `sessions` (
+  `session_id` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `expires` int unsigned NOT NULL,
+  `data` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin,
+  PRIMARY KEY (`session_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `music_albums`
+-- Dumping data for table `sessions`
 --
 
-LOCK TABLES `music_albums` WRITE;
-/*!40000 ALTER TABLE `music_albums` DISABLE KEYS */;
-/*!40000 ALTER TABLE `music_albums` ENABLE KEYS */;
+LOCK TABLES `sessions` WRITE;
+/*!40000 ALTER TABLE `sessions` DISABLE KEYS */;
+/*!40000 ALTER TABLE `sessions` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -54,4 +48,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-01-09 23:19:59
+-- Dump completed on 2023-01-09 23:19:58

@@ -1,5 +1,6 @@
 const { hashPassword, comparePassword } = require("../utils/hashing");
 const { validationResult } = require("express-validator");
+const crypto = require("crypto");
 const db = require("../database");
 
 register_post = async (req, res) => {
@@ -89,12 +90,51 @@ logout = async (req, res) => {
   });
 };
 
-register_editor = async (req, res) => {
-  req.session.destroy((err) => {
-    if (!err) {
-      return res.status(200).send({ msg: "Logout successful" });
-    }
+async function sendPasswordResetEmail(email, resetToken, origin) {
+  let message;
+
+  const resetUrl = `${origin}/apiRouter/resetPassword?token=${resetToken} email=${email}`;
+  message = `<p>Please click the below link to reset your password, the following link will be valid for only 1 hour:</p>
+                     <p><a href="${resetUrl}">${resetUrl}</a></p>`;
+
+  await sendEmail({
+    from: process.env.EMAIL_FROM,
+    to: email,
+    subject: " Reset your Password",
+    html: `<h4>Reset Password</h4>
+                 ${message}`,
   });
+}
+
+sendEmailLink = async (req, res) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty() && errors.errors[0].param === "email") {
+    return res.status(400).send({ msg: "Email cannot be empty" });
+  }
+
+  try {
+    const email = req.body.email;
+    const origin = req.header("Origin");
+    const isEmail = await db.emailExist(email);
+    if (isEmail.length === 1) {
+      return res
+        .status(400)
+        .send({ msg: "User with this username already exists" });
+    }
+
+    const resetToken = crypto.randomBytes(40).toString("hex");
+    const resetTokenExpires = new Date(Date.now() + 60 * 60 * 1000);
+    const createdAt = new Date(Date.now());
+    const expiredAt = resetTokenExpires;
+
+    await db.insertResetToken(email, resetToken, createdAt, expiredAt, 0);
+
+    await sendPasswordResetEmail(email, resetToken, origin);
+    return res.json({ message: "Please check your email for a new password" });
+  } catch (e) {
+    console.log(e);
+  }
 };
 
 module.exports = {

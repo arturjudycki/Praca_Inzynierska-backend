@@ -25,16 +25,16 @@ DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id_user` int NOT NULL AUTO_INCREMENT,
   `username` varchar(45) NOT NULL,
-  `e-mail` varchar(64) NOT NULL,
-  `password` varchar(45) NOT NULL,
+  `email` varchar(64) NOT NULL,
+  `password` varchar(255) NOT NULL,
   `first_name` varchar(45) DEFAULT NULL,
   `last_name` varchar(45) DEFAULT NULL,
   `user_type` enum('regular_user','editor','admin') NOT NULL,
   PRIMARY KEY (`id_user`),
   UNIQUE KEY `iduser_UNIQUE` (`id_user`),
   UNIQUE KEY `username_UNIQUE` (`username`),
-  UNIQUE KEY `e-mail_UNIQUE` (`e-mail`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  UNIQUE KEY `e-mail_UNIQUE` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -43,6 +43,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (1,'arturj','artur.judycki55@gmail.com','$2a$10$esEk2aGvUwKKplzMSmh8lOhJ3m6pCgdWo.1SHpMEOJhYdtKNjHeNy','Artur','Judycki','admin'),(2,'arek99','arek99@gmail.com','$2a$10$TmSlWtjI/6f6tWpqNp42Fu97tFJPuR552uIXeiUrMJ8Wub20500pi',NULL,NULL,'regular_user'),(3,'aga97','aga97@gmail.com','$2a$10$ob4br3nIvEx8G1p5CGyP7uCq1JPztWn4qZTcJetqQcwHgCOOhycd6',NULL,NULL,'regular_user');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -55,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-01-02  1:16:22
+-- Dump completed on 2023-01-09 23:19:59

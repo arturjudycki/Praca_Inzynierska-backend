@@ -30,4 +30,10 @@ router.post(
 
 router.post("/logout", isAuthenticated, auth_controller.logout);
 
+router.post(
+  "/sendEmailLink",
+  [check("email").notEmpty()],
+  auth_controller.sendEmailLink
+);
+
 module.exports = router;
