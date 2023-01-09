@@ -48,10 +48,57 @@ register_post = async (req, res) => {
   }
 };
 
-login_post = (req, res) => {
-  const { username, password } = request.body;
+login_post = async (req, res) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty() && errors.errors[0].param === "username") {
+    return res.status(400).send({ msg: "Username cannot be empty" });
+  }
+  if (!errors.isEmpty() && errors.errors[0].param === "password") {
+    return res.status(400).send({ msg: "Password cannot be empty" });
+  }
+
+  try {
+    const { username } = req.body;
+    const hashPassword = await db.getHashPassword(username);
+    if (hashPassword.length === 1) {
+      const hash = hashPassword[0].password;
+      const correctPassword = comparePassword(req.body.password, hash);
+      if (!correctPassword) {
+        return res.status(400).send({ msg: "Invalid password" });
+      } else {
+        const user = await db.loginUser(username, hash);
+        req.session.user = user.id_user;
+        console.log(req.session);
+        return res.status(200).send({ msg: "OK" });
+      }
+    } else {
+      return res.status(400).send({ msg: "Invalid username" });
+    }
+  } catch (e) {
+    console.log(e);
+    return res.sendStatus(500);
+  }
+};
+
+logout = async (req, res) => {
+  req.session.destroy((err) => {
+    if (!err) {
+      return res.status(200).send({ msg: "Logout successful" });
+    }
+  });
+};
+
+register_editor = async (req, res) => {
+  req.session.destroy((err) => {
+    if (!err) {
+      return res.status(200).send({ msg: "Logout successful" });
+    }
+  });
 };
 
 module.exports = {
   register_post,
+  login_post,
+  logout,
 };
