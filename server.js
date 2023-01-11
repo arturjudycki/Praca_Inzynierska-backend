@@ -5,6 +5,7 @@ const session = require("express-session");
 const mysqlStore = require("express-mysql-session")(session);
 
 const authRoute = require("./routes/auth");
+const userRoute = require("./routes/users");
 
 const server = express();
 
@@ -44,6 +45,8 @@ server.use((req, res, next) => {
 }); // middleware
 
 server.use("/auth", authRoute);
+server.use("/user", userRoute);
+
 
 server.listen(process.env.APP_PORT, () => {
   console.log(`http://localhost:${process.env.APP_PORT}`);

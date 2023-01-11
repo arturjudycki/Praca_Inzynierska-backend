@@ -161,4 +161,19 @@ db.updateUserPassword = (password, id) => {
   });
 };
 
+db.getUser = (id) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      "Select username, email, first_name, last_name, user_type from users WHERE id_user = ?",
+      [id],
+      (error, user) => {
+        if (error) {
+          return reject(error);
+        }
+        return resolve(user[0]);
+      }
+    );
+  });
+};
+
 module.exports = db;
