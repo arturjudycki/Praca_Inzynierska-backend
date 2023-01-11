@@ -1,5 +1,5 @@
 const express = require("express");
-
+require("dotenv").config();
 const mysql = require("mysql2/promise");
 const session = require("express-session");
 const mysqlStore = require("express-mysql-session")(session);
@@ -7,16 +7,15 @@ const mysqlStore = require("express-mysql-session")(session);
 const authRoute = require("./routes/auth");
 
 const server = express();
-const PORT = 8000;
 
 const ONE_WEEK = 1000 * 60 * 60 * 168;
 
 const options = {
   connectionLimit: 10,
-  host: "localhost",
-  user: "root",
-  password: "brad20thcentury",
-  database: "db_inz",
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
 };
 
 const connection = mysql.createPool(options);
@@ -30,7 +29,7 @@ server.use(
     resave: false,
     saveUninitialized: false,
     store: sessionStore,
-    secret: "ArtJud174",
+    secret: process.env.SESS_SECRET,
     cookie: {
       httpOnly: true,
       maxAge: ONE_WEEK,
@@ -46,6 +45,6 @@ server.use((req, res, next) => {
 
 server.use("/auth", authRoute);
 
-server.listen(PORT, () => {
-  console.log(`http://localhost:${PORT}`);
+server.listen(process.env.APP_PORT, () => {
+  console.log(`http://localhost:${process.env.APP_PORT}`);
 });

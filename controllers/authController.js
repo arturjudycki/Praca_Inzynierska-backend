@@ -1,6 +1,9 @@
 const { hashPassword, comparePassword } = require("../utils/hashing");
 const { validationResult } = require("express-validator");
 const crypto = require("crypto");
+require("dotenv").config();
+const nodemailer = require("nodemailer");
+
 const db = require("../database");
 
 register_post = async (req, res) => {
@@ -90,23 +93,39 @@ logout = async (req, res) => {
   });
 };
 
+async function sendEmail({ from, to, subject, html }) {
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      type: "OAuth2",
+      user: process.env.GMAIL_USER,
+      pass: process.env.GMAIL_PASSWORD,
+      clientId: process.env.GMAIL_CLIENT_ID,
+      clientSecret: process.env.GMAIL_CLIENT_SECRET,
+      refreshToken: process.env.GMAIL_REFRESH_TOKEN,
+    },
+  });
+  await transporter.sendMail({ from, to, subject, html });
+  console.log("email sent sucessfully");
+}
+
 async function sendPasswordResetEmail(email, resetToken, origin) {
   let message;
 
-  const resetUrl = `${origin}/apiRouter/resetPassword?token=${resetToken} email=${email}`;
-  message = `<p>Please click the below link to reset your password, the following link will be valid for only 1 hour:</p>
+  const resetUrl = `${origin}/auth/resetPassword/${resetToken}/${email}`;
+  message = `<p>Kliknij w poniższy link, aby zresetować hasło. Link będzie aktywny przez godzinę.</p>
                      <p><a href="${resetUrl}">${resetUrl}</a></p>`;
 
   await sendEmail({
-    from: process.env.EMAIL_FROM,
+    from: process.env.GMAIL_USER,
     to: email,
-    subject: " Reset your Password",
-    html: `<h4>Reset Password</h4>
+    subject: "Zmiana hasła",
+    html: `<h4>Zmiana hasła</h4>
                  ${message}`,
   });
 }
 
-sendEmailLink = async (req, res) => {
+send_email_link = async (req, res) => {
   const errors = validationResult(req);
 
   if (!errors.isEmpty() && errors.errors[0].param === "email") {
@@ -115,13 +134,14 @@ sendEmailLink = async (req, res) => {
 
   try {
     const email = req.body.email;
-    const origin = req.header("Origin");
+    const origin = "http://localhost:8000";
     const isEmail = await db.emailExist(email);
-    if (isEmail.length === 1) {
+    if (isEmail.length === 0) {
       return res
         .status(400)
-        .send({ msg: "User with this username already exists" });
+        .send({ msg: "User with this email doesn't exist" });
     }
+    await db.expireOldTokens(email, 1);
 
     const resetToken = crypto.randomBytes(40).toString("hex");
     const resetTokenExpires = new Date(Date.now() + 60 * 60 * 1000);
@@ -137,8 +157,36 @@ sendEmailLink = async (req, res) => {
   }
 };
 
+reset_password = async (req, res) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty() && errors.errors[0].param === "password") {
+    return res.status(400).send({
+      msg: "Password must have at least 5 characters, including letters and numbers.",
+    });
+  }
+  if (!errors.isEmpty() && errors.errors[0].param === "passwordConfirmation") {
+    return res.status(400).send({ msg: "Passwords must be the same." });
+  }
+
+  try {
+    const password = hashPassword(req.body.password);
+    const email = req.body.email;
+    const user = await db.emailExist(email);
+    await db.updateUserPassword(password, user[0].id_user);
+    res.json({
+      message:
+        "Password reset successful, you can now login with the new password",
+    });
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 module.exports = {
   register_post,
   login_post,
   logout,
+  send_email_link,
+  reset_password,
 };

@@ -1,11 +1,12 @@
 const mysql = require("mysql2");
+require("dotenv").config();
 
 const pool = mysql.createPool({
   connectionLimit: 10,
-  host: "localhost",
-  user: "root",
-  password: "brad20thcentury",
-  database: "db_inz",
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
 });
 
 let db = {};
@@ -120,6 +121,36 @@ db.expireOldTokens = (email, used) => {
     pool.query(
       "UPDATE ResetPasswordToken SET used = ?  WHERE email = ?",
       [used, email],
+      (error) => {
+        if (error) {
+          return reject(error);
+        }
+        return resolve();
+      }
+    );
+  });
+};
+
+db.findValidToken = (token, email, currentTime) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      "SELECT * FROM ResetPasswordToken WHERE (email = ? AND Token_value = ? AND expired_at > ?)",
+      [email, token, currentTime],
+      (error, tokens) => {
+        if (error) {
+          return reject(error);
+        }
+        return resolve(tokens[0]);
+      }
+    );
+  });
+};
+
+db.updateUserPassword = (password, id) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      "UPDATE users SET password = ? WHERE id_user = ?",
+      [password, id],
       (error) => {
         if (error) {
           return reject(error);
