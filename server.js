@@ -3,6 +3,7 @@ require("dotenv").config();
 const mysql = require("mysql2/promise");
 const session = require("express-session");
 const mysqlStore = require("express-mysql-session")(session);
+var cors = require("cors");
 
 const authRoute = require("./routes/auth");
 const userRoute = require("./routes/users");
@@ -19,9 +20,16 @@ const options = {
   database: process.env.DB_DATABASE,
 };
 
+var corsOptions = {
+  origin: "http://localhost:3000",
+  // optionsSuccessStatus: 200,
+  credentials: true,
+};
+
 const connection = mysql.createPool(options);
 const sessionStore = new mysqlStore({}, connection);
 
+server.use(cors(corsOptions));
 server.use(express.json()); //middleware
 server.use(express.urlencoded({ extended: false })); //middleware
 
@@ -46,7 +54,6 @@ server.use((req, res, next) => {
 
 server.use("/auth", authRoute);
 server.use("/user", userRoute);
-
 
 server.listen(process.env.APP_PORT, () => {
   console.log(`http://localhost:${process.env.APP_PORT}`);
