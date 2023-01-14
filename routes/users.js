@@ -5,11 +5,7 @@ const user_controller = require("../controllers/userController");
 
 const router = Router();
 
-router.get(
-  "/loggedUser",
-  helpers.isAuthenticated,
-  user_controller.reset_password
-);
+router.get("/loggedUser", helpers.isAuthenticated, user_controller.user_logged);
 
 
 

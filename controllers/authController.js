@@ -21,7 +21,7 @@ register_post = async (req, res) => {
   }
   if (!errors.isEmpty() && errors.errors[0].param === "password") {
     return res.status(400).send({
-      msg: "Password must have at least 5 characters, including letters and numbers.",
+      msg: "Password must have at least 8 characters, including letters and numbers.",
     });
   }
   if (!errors.isEmpty() && errors.errors[0].param === "passwordConfirmation") {
@@ -112,7 +112,7 @@ async function sendEmail({ from, to, subject, html }) {
 async function sendPasswordResetEmail(email, resetToken, origin) {
   let message;
 
-  const resetUrl = `${origin}/auth/resetPassword/${resetToken}/${email}`;
+  const resetUrl = `${origin}/reset-password/${resetToken}/${email}`;
   message = `<p>Kliknij w poniższy link, aby zresetować hasło. Link będzie aktywny przez godzinę.</p>
                      <p><a href="${resetUrl}">${resetUrl}</a></p>`;
 
@@ -134,7 +134,7 @@ send_email_link = async (req, res) => {
 
   try {
     const email = req.body.email;
-    const origin = "http://localhost:8000";
+    const origin = "http://localhost:3000";
     const isEmail = await db.emailExist(email);
     if (isEmail.length === 0) {
       return res

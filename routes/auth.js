@@ -11,7 +11,7 @@ router.post(
   [
     check("username").isLength({ min: 5, max: 20 }),
     check("email").isEmail(),
-    check("password").matches(/^(?=.*?[a-z])(?=.*?[0-9]).{5,}$/),
+    check("password").matches(/^(?=.*?[a-z])(?=.*?[0-9]).{8,}$/),
     check("passwordConfirmation").custom((value, { req }) => {
       if (value !== req.body.password) {
         throw new Error();
@@ -39,7 +39,7 @@ router.post(
 router.post(
   "/resetPassword",
   [
-    check("password").matches(/^(?=.*?[a-z])(?=.*?[0-9]).{5,}$/),
+    check("password").matches(/^(?=.*?[a-z])(?=.*?[0-9]).{8,}$/),
     check("passwordConfirmation").custom((value, { req }) => {
       if (value !== req.body.password) {
         throw new Error();
