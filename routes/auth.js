@@ -11,7 +11,7 @@ router.post(
   [
     check("username").isLength({ min: 5, max: 20 }),
     check("email").isEmail(),
-    check("password").matches(/^(?=.*?[a-z])(?=.*?[0-9]).{8,}$/),
+    check("password").matches(/^(?=.*?[a-z,A-Z])(?=.*?[0-9]).{8,}$/),
     check("passwordConfirmation").custom((value, { req }) => {
       if (value !== req.body.password) {
         throw new Error();
