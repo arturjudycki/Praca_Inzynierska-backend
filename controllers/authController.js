@@ -4,7 +4,7 @@ const crypto = require("crypto");
 require("dotenv").config();
 const nodemailer = require("nodemailer");
 
-const db = require("../database");
+const db = require("../db_queries/AuthUser");
 
 register_post = async (req, res) => {
   const errors = validationResult(req);

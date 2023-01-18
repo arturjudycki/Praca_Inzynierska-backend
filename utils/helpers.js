@@ -1,4 +1,4 @@
-const db = require("../database");
+const db = require("../db_queries/AuthUser");
 
 function isAuthenticated(req, res, next) {
   if (req.session.user) next();

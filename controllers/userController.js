@@ -1,4 +1,5 @@
-const db = require("../database");
+const db = require("../db_queries/AuthUser");
+
 const { hashPassword } = require("../utils/hashing");
 const { validationResult } = require("express-validator");
 
