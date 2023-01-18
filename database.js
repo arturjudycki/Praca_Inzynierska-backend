@@ -176,4 +176,34 @@ db.getUser = (id) => {
   });
 };
 
+db.changeEmail = (email, id) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      "UPDATE users SET email = ? WHERE id_user = ?",
+      [email, id],
+      (error, result) => {
+        if (error) {
+          return reject(error);
+        }
+        return resolve(result);
+      }
+    );
+  });
+};
+
+db.changePassword = (password, id) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      "UPDATE users SET password = ? WHERE id_user = ?",
+      [password, id],
+      (error, result) => {
+        if (error) {
+          return reject(error);
+        }
+        return resolve(result);
+      }
+    );
+  });
+};
+
 module.exports = db;

@@ -151,7 +151,9 @@ send_email_link = async (req, res) => {
     await db.insertResetToken(email, resetToken, createdAt, expiredAt, 0);
 
     await sendPasswordResetEmail(email, resetToken, origin);
-    return res.json({ message: "Please check your email for a new password" });
+    return res
+      .status(200)
+      .send({ message: "Please check your email for a new password" });
   } catch (e) {
     console.log(e);
   }
@@ -174,7 +176,7 @@ reset_password = async (req, res) => {
     const email = req.body.email;
     const user = await db.emailExist(email);
     await db.updateUserPassword(password, user[0].id_user);
-    res.json({
+    res.status(200).send({
       message:
         "Password reset successful, you can now login with the new password",
     });
