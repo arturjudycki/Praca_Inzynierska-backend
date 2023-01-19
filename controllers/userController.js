@@ -1,4 +1,5 @@
 const db = require("../db_queries/AuthUser");
+const dbManageUsers = require("../db_queries/ManageUsers");
 
 const { hashPassword } = require("../utils/hashing");
 const { validationResult } = require("express-validator");
@@ -7,6 +8,22 @@ user_logged = async (req, res) => {
   const id = req.session.user;
   const user = await db.getUser(id);
   return res.json({ user });
+};
+
+user_data = async (req, res) => {
+  try {
+    const username = req.params.username;
+    console.log(username);
+    const user = await db.getUserByUsername(username);
+    console.log(user);
+    if (user === undefined) {
+      return res.sendStatus(404);
+    }
+    return res.json({ user });
+  } catch (e) {
+    console.log(e);
+    return res.sendStatus(500);
+  }
 };
 
 change_email = async (req, res) => {
@@ -52,8 +69,68 @@ change_password = async (req, res) => {
   }
 };
 
+create_editor_admin = async (req, res) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty() && errors.errors[0].param === "username") {
+    return res
+      .status(400)
+      .send({ msg: "Username must have at least 5 characters and fully 20" });
+  }
+  if (!errors.isEmpty() && errors.errors[0].param === "email") {
+    return res
+      .status(400)
+      .send({ msg: "Invalid email address. Please enter an email." });
+  }
+  if (!errors.isEmpty() && errors.errors[0].param === "password") {
+    return res.status(400).send({
+      msg: "Password must have at least 8 characters, including letters and numbers.",
+    });
+  }
+  if (!errors.isEmpty() && errors.errors[0].param === "passwordConfirmation") {
+    return res.status(400).send({ msg: "Passwords must be the same." });
+  }
+  if (!errors.isEmpty() && errors.errors[0].param === "first_name") {
+    return res.status(400).send({ msg: "First_name cannot be empty." });
+  }
+  if (!errors.isEmpty() && errors.errors[0].param === "last_name") {
+    return res.status(400).send({ msg: "Last_name cannot be empty." });
+  }
+
+  try {
+    const { username, email, first_name, last_name, user_type } = req.body;
+    const password = hashPassword(req.body.password);
+    const isUsername = await db.usernameExist(username);
+    const isEmail = await db.emailExist(email);
+    if (isUsername.length === 1) {
+      return res
+        .status(400)
+        .send({ msg: "User with this username already exists" });
+    } else if (isEmail.length === 1) {
+      return res
+        .status(400)
+        .send({ msg: "User with this email already exists" });
+    } else {
+      const user = await dbManageUsers.registerEditorAdmin(
+        username,
+        email,
+        password,
+        first_name,
+        last_name,
+        user_type
+      );
+      return res.status(201).send({ msg: "User have been created" });
+    }
+  } catch (e) {
+    console.log(e);
+    return res.sendStatus(500);
+  }
+};
+
 module.exports = {
   user_logged,
+  user_data,
   change_email,
   change_password,
+  create_editor_admin,
 };

@@ -176,6 +176,36 @@ db.getUser = (id) => {
   });
 };
 
+db.getUserType = (id) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      "Select user_type from users WHERE id_user = ?",
+      [id],
+      (error, user) => {
+        if (error) {
+          return reject(error);
+        }
+        return resolve(user[0].user_type);
+      }
+    );
+  });
+};
+
+db.getUserByUsername = (username) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      "Select username, email, first_name, last_name, user_type from users WHERE username = ?",
+      [username],
+      (error, user) => {
+        if (error) {
+          return reject(error);
+        }
+        return resolve(user[0]);
+      }
+    );
+  });
+};
+
 db.changeEmail = (email, id) => {
   return new Promise((resolve, reject) => {
     pool.query(
