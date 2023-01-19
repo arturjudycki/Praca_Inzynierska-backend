@@ -164,7 +164,7 @@ db.updateUserPassword = (password, id) => {
 db.getUser = (id) => {
   return new Promise((resolve, reject) => {
     pool.query(
-      "Select username, email, first_name, last_name, user_type from users WHERE id_user = ?",
+      "SELECT username, email, first_name, last_name, user_type from users WHERE id_user = ?",
       [id],
       (error, user) => {
         if (error) {
@@ -179,7 +179,7 @@ db.getUser = (id) => {
 db.getUserType = (id) => {
   return new Promise((resolve, reject) => {
     pool.query(
-      "Select user_type from users WHERE id_user = ?",
+      "SELECT user_type from users WHERE id_user = ?",
       [id],
       (error, user) => {
         if (error) {
@@ -194,7 +194,7 @@ db.getUserType = (id) => {
 db.getUserByUsername = (username) => {
   return new Promise((resolve, reject) => {
     pool.query(
-      "Select username, email, first_name, last_name, user_type from users WHERE username = ?",
+      "SELECT username, email, first_name, last_name, user_type from users WHERE username = ?",
       [username],
       (error, user) => {
         if (error) {

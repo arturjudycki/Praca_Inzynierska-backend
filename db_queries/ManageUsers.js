@@ -48,4 +48,19 @@ db.grantAdmin = (id_user) => {
   });
 };
 
+db.getEditorUsers = () => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      "SELECT id_user, username, first_name, last_name FROM users WHERE user_type = ?",
+      ["editor"],
+      (error, result) => {
+        if (error) {
+          return reject(error);
+        }
+        return resolve(result);
+      }
+    );
+  });
+};
+
 module.exports = db;

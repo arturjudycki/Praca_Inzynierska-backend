@@ -127,10 +127,25 @@ create_editor_admin = async (req, res) => {
   }
 };
 
+get_editors = async (req, res) => {
+  try {
+    const editors = await dbManageUsers.getEditorUsers();
+    console.log(editors);
+    if (editors === undefined) {
+      return res.sendStatus(404);
+    }
+    return res.json({ editors });
+  } catch (e) {
+    console.log(e);
+    return res.sendStatus(500);
+  }
+};
+
 module.exports = {
   user_logged,
   user_data,
   change_email,
   change_password,
   create_editor_admin,
+  get_editors,
 };

@@ -6,13 +6,21 @@ const user_controller = require("../controllers/userController");
 const router = Router();
 
 router.get("/loggedUser", helpers.isAuthenticated, user_controller.user_logged);
+router.get(
+  "/getEditorUsers",
+  helpers.isAuthenticated,
+  helpers.isAdmin,
+  user_controller.get_editors
+);
 router.get("/:username", user_controller.user_data);
+
 router.patch(
   "/changeEmail",
   [check("email").notEmpty()],
   helpers.isAuthenticated,
   user_controller.change_email
 );
+
 router.patch(
   "/changePassword",
   [
@@ -47,5 +55,7 @@ router.post(
   helpers.isAdmin,
   user_controller.create_editor_admin
 );
+
+
 
 module.exports = router;
