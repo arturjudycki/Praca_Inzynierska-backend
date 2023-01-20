@@ -36,6 +36,7 @@ CREATE TABLE `sessions` (
 
 LOCK TABLES `sessions` WRITE;
 /*!40000 ALTER TABLE `sessions` DISABLE KEYS */;
+INSERT INTO `sessions` VALUES ('aZwtdGZpxKrkAoX8QEKewjW5rlSBXa7M',1674835005,'{\"cookie\":{\"originalMaxAge\":604800000,\"expires\":\"2023-01-26T11:28:12.002Z\",\"httpOnly\":true,\"path\":\"/\",\"sameSite\":true},\"user\":12}'),('dL3APWagYGXD2oD5GZ3mPb6WFMG1IRJl',1674742860,'{\"cookie\":{\"originalMaxAge\":604799999,\"expires\":\"2023-01-26T13:21:47.243Z\",\"httpOnly\":true,\"path\":\"/\",\"sameSite\":true},\"user\":1}'),('nLVEgkEOQ6FXZFT20fNpYLqwWczfp9a1',1674601632,'{\"cookie\":{\"originalMaxAge\":604800000,\"expires\":\"2023-01-24T16:51:34.814Z\",\"httpOnly\":true,\"path\":\"/\",\"sameSite\":true},\"user\":6}'),('ySJBzHySS6vQVy4fPt326vQM2kfZ8NB5',1674825977,'{\"cookie\":{\"originalMaxAge\":604800000,\"expires\":\"2023-01-26T20:52:09.756Z\",\"httpOnly\":true,\"path\":\"/\",\"sameSite\":true},\"user\":1}');
 /*!40000 ALTER TABLE `sessions` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -48,4 +49,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-01-09 23:19:58
+-- Dump completed on 2023-01-20 17:00:17

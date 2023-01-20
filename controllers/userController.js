@@ -141,6 +141,17 @@ get_editors = async (req, res) => {
   }
 };
 
+grant_admin = async (req, res) => {
+  try {
+    const id = req.body.id_user;
+    await dbManageUsers.grantAdmin(id);
+    return res.status(200).send({ msg: "Role Admin have been granted" });
+  } catch (e) {
+    console.log(e);
+    return res.sendStatus(500);
+  }
+};
+
 module.exports = {
   user_logged,
   user_data,
@@ -148,4 +159,5 @@ module.exports = {
   change_password,
   create_editor_admin,
   get_editors,
+  grant_admin,
 };

@@ -15,6 +15,13 @@ router.get(
 router.get("/:username", user_controller.user_data);
 
 router.patch(
+  "/grantAdmin",
+  helpers.isAuthenticated,
+  helpers.isAdmin,
+  user_controller.grant_admin
+);
+
+router.patch(
   "/changeEmail",
   [check("email").notEmpty()],
   helpers.isAuthenticated,
