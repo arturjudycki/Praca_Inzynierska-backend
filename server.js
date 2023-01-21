@@ -7,6 +7,7 @@ var cors = require("cors");
 
 const authRoute = require("./routes/auth");
 const userRoute = require("./routes/users");
+const textRoute = require("./routes/texts");
 
 const server = express();
 
@@ -22,7 +23,6 @@ const options = {
 
 var corsOptions = {
   origin: "http://localhost:3000",
-  // optionsSuccessStatus: 200,
   credentials: true,
 };
 
@@ -54,6 +54,8 @@ server.use((req, res, next) => {
 
 server.use("/auth", authRoute);
 server.use("/user", userRoute);
+server.use("/text", textRoute);
+
 
 server.listen(process.env.APP_PORT, () => {
   console.log(`http://localhost:${process.env.APP_PORT}`);

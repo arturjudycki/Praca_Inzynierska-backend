@@ -12,6 +12,16 @@ async function isAdmin(req, res, next) {
   else return res.status(403).send({ msg: "You are not admin user" });
 }
 
+async function isEditorOrAdmin(req, res, next) {
+  const idUser = req.session.user;
+  const userType = await db.getUserType(idUser);
+  if (userType === "admin" || userType === "editor") next();
+  else
+    return res
+      .status(403)
+      .send({ msg: "You are not editor user or admin user" });
+}
+
 async function validateResetToken(req, res, next) {
   const email = req.body.email;
   const resetToken = req.body.token;
@@ -29,5 +39,6 @@ async function validateResetToken(req, res, next) {
 module.exports = {
   isAuthenticated,
   isAdmin,
+  isEditorOrAdmin,
   validateResetToken,
 };
