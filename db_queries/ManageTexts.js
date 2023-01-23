@@ -41,6 +41,17 @@ db.updateText = (title, content, id_text) => {
   });
 };
 
+db.getAllTexts = () => {
+  return new Promise((resolve, reject) => {
+    pool.query("SELECT * FROM texts", (error, result) => {
+      if (error) {
+        return reject(error);
+      }
+      return resolve(result);
+    });
+  });
+};
+
 db.getTextsByIdUser = (id_user) => {
   return new Promise((resolve, reject) => {
     pool.query(
@@ -61,6 +72,51 @@ db.getTextsByArticle = () => {
     pool.query(
       "SELECT * FROM texts WHERE type_of_text = ?",
       ["article"],
+      (error, result) => {
+        if (error) {
+          return reject(error);
+        }
+        return resolve(result);
+      }
+    );
+  });
+};
+
+db.getTextsByNews = () => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      "SELECT * FROM texts WHERE type_of_text = ?",
+      ["news"],
+      (error, result) => {
+        if (error) {
+          return reject(error);
+        }
+        return resolve(result);
+      }
+    );
+  });
+};
+
+db.getTextsByRanking = () => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      "SELECT * FROM texts WHERE type_of_text = ?",
+      ["ranking"],
+      (error, result) => {
+        if (error) {
+          return reject(error);
+        }
+        return resolve(result);
+      }
+    );
+  });
+};
+
+db.getTextsByInterview = () => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      "SELECT * FROM texts WHERE type_of_text = ?",
+      ["interview"],
       (error, result) => {
         if (error) {
           return reject(error);

@@ -13,15 +13,15 @@ router.get(
   text_controller.get_texts_by_id_user
 );
 
-router.get("/:id_text", text_controller.get_text_by_id_text);
+router.get("/allTexts", text_controller.get_all_texts);
 
 router.get("/article", text_controller.get_text_by_article);
 
-// router.get("/news", text_controller.get_text_by_id_news);
+router.get("/news", text_controller.get_text_by_news);
 
-// router.get("/ranking", text_controller.get_text_by_id_ranking);
+router.get("/ranking", text_controller.get_text_by_ranking);
 
-// router.get("/interview", text_controller.get_text_by_id_interview);
+router.get("/interview", text_controller.get_text_by_interview);
 
 router.post(
   "/createText",
@@ -47,5 +47,7 @@ router.patch(
   helpers.isEditorOrAdmin,
   text_controller.update_text
 );
+
+router.get("/:id_text", text_controller.get_text_by_id_text);
 
 module.exports = router;

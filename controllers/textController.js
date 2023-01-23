@@ -81,14 +81,50 @@ update_text = async (req, res) => {
   }
 };
 
+get_all_texts = async (req, res) => {
+  try {
+    const texts = await dbManageTexts.getAllTexts();
+    return res.json(texts);
+  } catch (e) {
+    console.log(e);
+    return res.sendStatus(500);
+  }
+};
+
 get_text_by_article = async (req, res) => {
   try {
     const articles = await dbManageTexts.getTextsByArticle();
-    // if (text === undefined) {
-    //   return res.sendStatus(404);
-    // }
-    // console.log(articles);
-    return res.json({ articles });
+    return res.json(articles);
+  } catch (e) {
+    console.log(e);
+    return res.sendStatus(500);
+  }
+};
+
+get_text_by_news = async (req, res) => {
+  try {
+    const news = await dbManageTexts.getTextsByNews();
+    return res.json(news);
+  } catch (e) {
+    console.log(e);
+    return res.sendStatus(500);
+  }
+};
+
+get_text_by_ranking = async (req, res) => {
+  try {
+    const rankings = await dbManageTexts.getTextsByRanking();
+    return res.json(rankings);
+  } catch (e) {
+    console.log(e);
+    return res.sendStatus(500);
+  }
+};
+
+get_text_by_interview = async (req, res) => {
+  try {
+    const interview = await dbManageTexts.getTextsByInterview();
+    return res.json(interview);
   } catch (e) {
     console.log(e);
     return res.sendStatus(500);
@@ -100,5 +136,9 @@ module.exports = {
   get_text_by_id_text,
   create_text,
   update_text,
+  get_all_texts,
   get_text_by_article,
+  get_text_by_news,
+  get_text_by_ranking,
+  get_text_by_interview,
 };
