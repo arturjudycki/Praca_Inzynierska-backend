@@ -25,8 +25,9 @@ DROP TABLE IF EXISTS `texts`;
 CREATE TABLE `texts` (
   `id_text` int NOT NULL AUTO_INCREMENT,
   `type_of_text` enum('article','news','ranking','interview') NOT NULL,
+  `title` varchar(255) NOT NULL,
   `content` longtext NOT NULL,
-  `publication_date` date NOT NULL,
+  `publication_date` datetime NOT NULL,
   `user` int NOT NULL,
   PRIMARY KEY (`id_text`),
   UNIQUE KEY `id_text_UNIQUE` (`id_text`),
@@ -53,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-01-20 17:00:16
+-- Dump completed on 2023-01-22 14:07:49

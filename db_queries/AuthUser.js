@@ -164,7 +164,7 @@ db.updateUserPassword = (password, id) => {
 db.getUser = (id) => {
   return new Promise((resolve, reject) => {
     pool.query(
-      "SELECT username, email, first_name, last_name, user_type from users WHERE id_user = ?",
+      "SELECT id_user, username, email, first_name, last_name, user_type from users WHERE id_user = ?",
       [id],
       (error, user) => {
         if (error) {

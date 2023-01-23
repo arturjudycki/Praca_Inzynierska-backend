@@ -11,11 +11,11 @@ const pool = mysql.createPool({
 
 let db = {};
 
-db.createText = (type_of_text, content, publication_date, user) => {
+db.createText = (type_of_text, title, content, publication_date, user) => {
   return new Promise((resolve, reject) => {
     pool.query(
-      "INSERT INTO texts (type_of_text, content, publication_date, user) VALUES (?,?,?,?)",
-      [type_of_text, content, publication_date, user],
+      "INSERT INTO texts (type_of_text, title, content, publication_date, user) VALUES (?,?,?,?,?)",
+      [type_of_text, title, content, publication_date, user],
       (error, result) => {
         if (error) {
           return reject(error);
@@ -41,9 +41,24 @@ db.updateText = (content, id_text) => {
   });
 };
 
-db.getAllText;
+// db.getAllText;
 
-db.getTextById = (id_text) => {
+db.getTextsByIdUser = (id_user) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      "SELECT * FROM texts WHERE user = ?",
+      [id_user],
+      (error, result) => {
+        if (error) {
+          return reject(error);
+        }
+        return resolve(result);
+      }
+    );
+  });
+};
+
+db.getTextByIdText = (id_text) => {
   return new Promise((resolve, reject) => {
     pool.query(
       "SELECT * FROM texts WHERE id_text = ?",
@@ -52,7 +67,7 @@ db.getTextById = (id_text) => {
         if (error) {
           return reject(error);
         }
-        return resolve(result);
+        return resolve(result[0]);
       }
     );
   });

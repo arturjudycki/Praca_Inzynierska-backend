@@ -25,7 +25,7 @@ DROP TABLE IF EXISTS `comments`;
 CREATE TABLE `comments` (
   `id_comment` int NOT NULL AUTO_INCREMENT,
   `content_comment` mediumtext NOT NULL,
-  `publication_date` date NOT NULL,
+  `publication_date` datetime NOT NULL,
   `user` int NOT NULL,
   `text` int NOT NULL,
   PRIMARY KEY (`id_comment`),
@@ -55,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-01-20 17:00:17
+-- Dump completed on 2023-01-22 14:07:49

@@ -6,12 +6,21 @@ const router = Router();
 
 const text_controller = require("../controllers/textController");
 
+router.get(
+  "/getTextsByIdUser",
+  helpers.isAuthenticated,
+  helpers.isEditorOrAdmin,
+  text_controller.get_texts_by_id_user
+);
+
+router.get("/:id_text", text_controller.get_text_by_id_text);
+
 router.post(
   "/createText",
   [
     check("type_of_text").notEmpty(),
+    check("title").notEmpty(),
     check("content").notEmpty(),
-    check("publication_date").notEmpty(),
     check("user").notEmpty(),
   ],
   helpers.isAuthenticated,
