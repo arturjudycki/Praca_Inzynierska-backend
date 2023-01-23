@@ -19,6 +19,7 @@ get_text_by_id_text = async (req, res) => {
     if (text === undefined) {
       return res.sendStatus(404);
     }
+    console.log(text);
     return res.json({ text });
   } catch (e) {
     console.log(e);
@@ -63,14 +64,31 @@ create_text = async (req, res) => {
 update_text = async (req, res) => {
   const errors = validationResult(req);
 
+  if (!errors.isEmpty() && errors.errors[0].param === "title") {
+    return res.status(400).send({ msg: "Title cannot be empty." });
+  }
   if (!errors.isEmpty() && errors.errors[0].param === "content") {
     return res.status(400).send({ msg: "Content cannot be empty." });
   }
 
   try {
-    const { content, id_text } = req.body;
-    await dbManageTexts.updateText(content, id_text);
+    const { title, content, id_text } = req.body;
+    await dbManageTexts.updateText(title, content, id_text);
     return res.status(200).send({ msg: "Text have been updated" });
+  } catch (e) {
+    console.log(e);
+    return res.sendStatus(500);
+  }
+};
+
+get_text_by_article = async (req, res) => {
+  try {
+    const articles = await dbManageTexts.getTextsByArticle();
+    // if (text === undefined) {
+    //   return res.sendStatus(404);
+    // }
+    // console.log(articles);
+    return res.json({ articles });
   } catch (e) {
     console.log(e);
     return res.sendStatus(500);
@@ -82,4 +100,5 @@ module.exports = {
   get_text_by_id_text,
   create_text,
   update_text,
+  get_text_by_article,
 };

@@ -26,6 +26,22 @@ user_data = async (req, res) => {
   }
 };
 
+// get_user_data_by_id = async (req, res) => {
+//   try {
+//     const username = req.params.username;
+//     console.log(username);
+//     const user = await db.getUser(id_user);
+//     console.log(user);
+//     if (user === undefined) {
+//       return res.sendStatus(404);
+//     }
+//     return res.json({ user });
+//   } catch (e) {
+//     console.log(e);
+//     return res.sendStatus(500);
+//   }
+// };
+
 change_email = async (req, res) => {
   const errors = validationResult(req);
 

@@ -15,6 +15,14 @@ router.get(
 
 router.get("/:id_text", text_controller.get_text_by_id_text);
 
+router.get("/article", text_controller.get_text_by_article);
+
+// router.get("/news", text_controller.get_text_by_id_news);
+
+// router.get("/ranking", text_controller.get_text_by_id_ranking);
+
+// router.get("/interview", text_controller.get_text_by_id_interview);
+
 router.post(
   "/createText",
   [
@@ -30,7 +38,11 @@ router.post(
 
 router.patch(
   "/updateText",
-  [check("content").notEmpty(), check("id_text").notEmpty()],
+  [
+    check("title").notEmpty(),
+    check("content").notEmpty(),
+    check("id_text").notEmpty(),
+  ],
   helpers.isAuthenticated,
   helpers.isEditorOrAdmin,
   text_controller.update_text

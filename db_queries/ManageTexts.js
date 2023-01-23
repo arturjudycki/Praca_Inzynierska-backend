@@ -26,11 +26,11 @@ db.createText = (type_of_text, title, content, publication_date, user) => {
   });
 };
 
-db.updateText = (content, id_text) => {
+db.updateText = (title, content, id_text) => {
   return new Promise((resolve, reject) => {
     pool.query(
-      "UPDATE texts SET content = ? WHERE id_text = ?",
-      [content, id_text],
+      "UPDATE texts SET title = ?, content = ? WHERE id_text = ?",
+      [title, content, id_text],
       (error, result) => {
         if (error) {
           return reject(error);
@@ -40,8 +40,6 @@ db.updateText = (content, id_text) => {
     );
   });
 };
-
-// db.getAllText;
 
 db.getTextsByIdUser = (id_user) => {
   return new Promise((resolve, reject) => {
@@ -58,10 +56,25 @@ db.getTextsByIdUser = (id_user) => {
   });
 };
 
+db.getTextsByArticle = () => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      "SELECT * FROM texts WHERE type_of_text = ?",
+      ["article"],
+      (error, result) => {
+        if (error) {
+          return reject(error);
+        }
+        return resolve(result);
+      }
+    );
+  });
+};
+
 db.getTextByIdText = (id_text) => {
   return new Promise((resolve, reject) => {
     pool.query(
-      "SELECT * FROM texts WHERE id_text = ?",
+      "SELECT texts.*, users.first_name, users.last_name FROM texts, users WHERE id_text = ? AND texts.user = users.id_user",
       [id_text],
       (error, result) => {
         if (error) {
