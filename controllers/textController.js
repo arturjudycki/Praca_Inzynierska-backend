@@ -5,7 +5,7 @@ get_texts_by_id_user = async (req, res) => {
   try {
     const id_user = req.session.user;
     const texts = await dbManageTexts.getTextsByIdUser(id_user);
-    return res.json({ texts });
+    return res.json(texts);
   } catch (e) {
     console.log(e);
     return res.sendStatus(500);
@@ -20,7 +20,7 @@ get_text_by_id_text = async (req, res) => {
       return res.sendStatus(404);
     }
     console.log(text);
-    return res.json({ text });
+    return res.json(text);
   } catch (e) {
     console.log(e);
     return res.sendStatus(500);
