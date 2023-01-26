@@ -8,16 +8,12 @@ const comment_controller = require("../controllers/commentController");
 
 router.post(
   "/addComment",
-  [
-    check("content_comment").notEmpty(),
-    check("id_user").notEmpty(),
-    check("id_text").notEmpty(),
-  ],
+  [check("content_comment").notEmpty(), check("id_text").notEmpty()],
   helpers.isAuthenticated,
   comment_controller.add_comment
 );
 
-router.get("/getComments", comment_controller.get_comments);
+router.get("/:id_text/getComments", comment_controller.get_comments);
 
 router.patch(
   "/editComment",

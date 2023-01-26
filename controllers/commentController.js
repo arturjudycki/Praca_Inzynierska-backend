@@ -7,16 +7,17 @@ add_comment = async (req, res) => {
   if (!errors.isEmpty() && errors.errors[0].param === "content_comment") {
     return res.status(400).send({ msg: "Content comment cannot be empty." });
   }
-  if (!errors.isEmpty() && errors.errors[0].param === "id_user") {
-    return res.status(400).send({ msg: "User cannot be empty." });
-  }
+  // if (!errors.isEmpty() && errors.errors[0].param === "id_user") {
+  //   return res.status(400).send({ msg: "User cannot be empty." });
+  // }
   if (!errors.isEmpty() && errors.errors[0].param === "id_text") {
     return res.status(400).send({ msg: "Text cannot be empty." });
   }
 
   try {
-    const { content_comment, id_user, id_text } = req.body;
+    const { content_comment, id_text } = req.body;
     const publication_date = new Date(Date.now());
+    const id_user = req.session.user;
 
     const comment = await dbManageComments.addComment(
       content_comment,
@@ -33,9 +34,10 @@ add_comment = async (req, res) => {
 
 get_comments = async (req, res) => {
   try {
-    const { id_text } = req.params.id_text;
+    const id_text = req.params.id_text;
+    console.log(id_text);
 
-    const comments = await dbManageComments.deleteComment(id_text);
+    const comments = await dbManageComments.getComments(id_text);
     console.log(comments);
     return res.json(comments);
   } catch (e) {
