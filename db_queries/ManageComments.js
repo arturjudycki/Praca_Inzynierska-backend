@@ -44,8 +44,8 @@ db.getComments = (id_text) => {
 db.editComment = (content_comment, id_comment) => {
   return new Promise((resolve, reject) => {
     pool.query(
-      "UPDATE comments SET content_comment = ? WHERE id_comment = ?",
-      [content_comment, id_comment],
+      "UPDATE comments SET content_comment = ?, edited = ? WHERE id_comment = ?",
+      [content_comment, 1, id_comment],
       (error, result) => {
         if (error) {
           return reject(error);
