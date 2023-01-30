@@ -7,9 +7,6 @@ add_comment = async (req, res) => {
   if (!errors.isEmpty() && errors.errors[0].param === "content_comment") {
     return res.status(400).send({ msg: "Content comment cannot be empty." });
   }
-  // if (!errors.isEmpty() && errors.errors[0].param === "id_user") {
-  //   return res.status(400).send({ msg: "User cannot be empty." });
-  // }
   if (!errors.isEmpty() && errors.errors[0].param === "id_text") {
     return res.status(400).send({ msg: "Text cannot be empty." });
   }

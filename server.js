@@ -9,6 +9,7 @@ const authRoute = require("./routes/auth");
 const userRoute = require("./routes/users");
 const textRoute = require("./routes/texts");
 const commentRoute = require("./routes/comments");
+const albumRoute = require("./routes/albums");
 
 const server = express();
 
@@ -57,6 +58,7 @@ server.use("/auth", authRoute);
 server.use("/user", userRoute);
 server.use("/text", textRoute);
 server.use("/comment", commentRoute);
+server.use("/album", albumRoute);
 
 server.listen(process.env.APP_PORT, () => {
   console.log(`http://localhost:${process.env.APP_PORT}`);
