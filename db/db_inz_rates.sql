@@ -26,7 +26,7 @@ CREATE TABLE `rates` (
   `id_rate` int NOT NULL AUTO_INCREMENT,
   `numerical_rating` int DEFAULT NULL,
   `verbal_rating` mediumtext,
-  `rating_date` date NOT NULL,
+  `rating_date` datetime NOT NULL,
   `favourites` tinyint DEFAULT NULL,
   `song` int DEFAULT NULL,
   `music_album` int DEFAULT NULL,
@@ -60,4 +60,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-01-30 18:49:13
+-- Dump completed on 2023-01-31 22:28:19

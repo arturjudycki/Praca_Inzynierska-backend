@@ -33,7 +33,7 @@ CREATE TABLE `music_albums` (
   `record_label` varchar(255) NOT NULL,
   PRIMARY KEY (`id_music_album`),
   UNIQUE KEY `idmusic-album_UNIQUE` (`id_music_album`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +42,7 @@ CREATE TABLE `music_albums` (
 
 LOCK TABLES `music_albums` WRITE;
 /*!40000 ALTER TABLE `music_albums` DISABLE KEYS */;
-INSERT INTO `music_albums` VALUES (4,'ggggg','cover_1675093690357_.jpg','1994-05-12','gdfg','studio_album','dfgfgfs','vdfvdfvf'),(5,'ggggg','cover_1675096472248_.jpg','1994-05-12','gdfg','studio_album','dfgfgfs','vdfvdfvf'),(6,'ggggg','cover_1675096496554_.jpg','1994-05-12','gdfg','studio_album','dfgfgfs','vdfvdfvf'),(7,'ggggg','cover_1675099647487_.jpg','1994-05-12','gdfg','studio_album','dfgfgfs','vdfvdfvf'),(8,'ggggg','cover_1675099940016_.jpg','1994-05-12','gdfg','studio_album','dfgfgfs','vdfvdfvf'),(9,'ggggg','cover_1675100214499_.jpg','1994-05-12','gdfg','studio_album','dfgfgfs','vdfvdfvf'),(10,'ggggg','cover_1675100432818_.jpg','1994-05-12','gdfg','studio_album','dfgfgfs','vdfvdfvf'),(11,'ggggg','cover_1675100511935_.jpg','1994-05-12','gdfg','studio_album','dfgfgfs','vdfvdfvf');
+INSERT INTO `music_albums` VALUES (4,'ggggg','cover_1675093690357_.jpg','1994-05-12','gdfg','studio_album','dfgfgfs','vdfvdfvf'),(5,'ggggg','cover_1675096472248_.jpg','1994-05-12','gdfg','studio_album','dfgfgfs','vdfvdfvf'),(6,'ggggg','cover_1675096496554_.jpg','1994-05-12','gdfg','studio_album','dfgfgfs','vdfvdfvf'),(7,'ggggg','cover_1675099647487_.jpg','1994-05-12','gdfg','studio_album','dfgfgfs','vdfvdfvf'),(8,'ggggg','cover_1675099940016_.jpg','1994-05-12','gdfg','studio_album','dfgfgfs','vdfvdfvf'),(9,'ggggg','cover_1675100214499_.jpg','1994-05-12','gdfg','studio_album','dfgfgfs','vdfvdfvf'),(10,'ggggg','cover_1675100432818_.jpg','1994-05-12','gdfg','studio_album','dfgfgfs','vdfvdfvf'),(11,'ggggg','cover_1675100511935_.jpg','1994-05-12','gdfg','studio_album','dfgfgfs','vdfvdfvf'),(12,'sagadfgadgds','cover_1675152767943_.png','2023-01-17','dgfd','studio_album','dsgfdgfd','gfdgfdfd'),(13,'sfasfsad','cover_1675159825122_.jpg','2022-12-29','gssdfgfdg','studio_album','fgdfsg','gdsfgfdg'),(14,'gfdgdf','cover_1675162576850_.jpg','2023-01-04','gfdgdfs','studio_album','sdfgf','gdfsgsdf'),(15,'efdeawfewf','cover_1675163734307_.jpg','2023-01-04','fsdafdsf','studio_album','dfdsafds','adfdsfds'),(16,'efdeawfewf','cover_1675163950271_.jpg','2023-01-04','fsdafdsf','studio_album','dfdsafds','adfdsfds'),(17,'dsafadsas','cover_1675164387440_.jpg','2023-01-03','dsfdasfds','studio_album','fdsafdas','fdsafsdfs'),(18,'dsafadsas','cover_1675164482211_.jpg','2023-01-03','dsfdasfds','studio_album','fdsafdas','fdsafsdfs'),(19,'fdsafadsfdsaf','cover_1675166272443_.jpg','2023-01-04','gasdfgvd','studio_album','fadsgde','afdsgd');
 /*!40000 ALTER TABLE `music_albums` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -55,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-01-30 18:49:14
+-- Dump completed on 2023-01-31 22:28:20

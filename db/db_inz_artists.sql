@@ -29,7 +29,7 @@ CREATE TABLE `artists` (
   `members` mediumtext NOT NULL,
   PRIMARY KEY (`id_artist`),
   UNIQUE KEY `id_artist_UNIQUE` (`id_artist`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,7 +38,7 @@ CREATE TABLE `artists` (
 
 LOCK TABLES `artists` WRITE;
 /*!40000 ALTER TABLE `artists` DISABLE KEYS */;
-INSERT INTO `artists` VALUES (1,'Nirvana','opis','czlonk'),(2,'Peral Jam','bb','aa');
+INSERT INTO `artists` VALUES (1,'Nirvana','opis','czlonk'),(2,'Peral Jam','bb','aa'),(3,'eyatgartert','rweterwtre','eterterterwter'),(4,'gfsdgvdfsbv','ggvdfbvdfbvdf','bvdfbdfbfd');
 /*!40000 ALTER TABLE `artists` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-01-30 18:49:14
+-- Dump completed on 2023-01-31 22:28:20
