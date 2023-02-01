@@ -27,6 +27,33 @@ add_artist = async (req, res) => {
   }
 };
 
+get_artist_by_id = async (req, res) => {
+  try {
+    const id_artist = req.params.id_artist;
+    const artist = await dbManageArtists.getArtistById(id_artist);
+    if (artist === undefined) {
+      return res.sendStatus(404);
+    }
+    console.log(artist);
+    return res.json(artist);
+  } catch (e) {
+    console.log(e);
+    return res.sendStatus(500);
+  }
+};
+
+get_all_artists = async (req, res) => {
+  try {
+    const artists = await dbManageArtists.getAllArtists();
+    return res.json(artists);
+  } catch (e) {
+    console.log(e);
+    return res.sendStatus(500);
+  }
+};
+
 module.exports = {
   add_artist,
+  get_artist_by_id,
+  get_all_artists,
 };

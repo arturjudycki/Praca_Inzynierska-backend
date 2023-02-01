@@ -26,4 +26,30 @@ db.addArtist = (name, description, members) => {
   });
 };
 
+db.getArtistById = (id_artist) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      "SELECT * FROM artists WHERE id_artist = ?",
+      [id_artist],
+      (error, result) => {
+        if (error) {
+          return reject(error);
+        }
+        return resolve(result[0]);
+      }
+    );
+  });
+};
+
+db.getAllArtists = () => {
+  return new Promise((resolve, reject) => {
+    pool.query("SELECT * FROM artists", (error, result) => {
+      if (error) {
+        return reject(error);
+      }
+      return resolve(result);
+    });
+  });
+};
+
 module.exports = db;

@@ -19,4 +19,13 @@ router.post(
   artist_controller.add_artist
 );
 
+router.get("/getAllArtists", artist_controller.get_all_artists);
+
+router.get(
+  "/:id_artist/getArtistById",
+  helpers.isAuthenticated,
+  helpers.isAdmin,
+  artist_controller.get_artist_by_id
+);
+
 module.exports = router;
