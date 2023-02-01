@@ -21,6 +21,18 @@ router.post(
 
 router.get("/getAllArtists", artist_controller.get_all_artists);
 
+router.put(
+  "/editArtist",
+  [
+    check("name").notEmpty(),
+    check("description").notEmpty(),
+    check("members").notEmpty(),
+  ],
+  helpers.isAuthenticated,
+  helpers.isAdmin,
+  artist_controller.edit_artist
+);
+
 router.get(
   "/:id_artist/getArtistById",
   helpers.isAuthenticated,

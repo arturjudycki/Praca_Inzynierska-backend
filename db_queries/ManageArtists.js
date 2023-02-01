@@ -52,4 +52,19 @@ db.getAllArtists = () => {
   });
 };
 
+db.editArtist = (id_artist, name, description, members) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      "UPDATE artists SET name = ?, description = ?, members = ? WHERE id_artist = ?",
+      [name, description, members, id_artist],
+      (error, result) => {
+        if (error) {
+          return reject(error);
+        }
+        return resolve(result);
+      }
+    );
+  });
+};
+
 module.exports = db;
