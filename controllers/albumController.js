@@ -58,37 +58,104 @@ add_album = async (req, res) => {
   }
 };
 
-assign_artist_to_album = async (req, res) => {
+edit_album = async (req, res) => {
   const errors = validationResult(req);
 
-  try {
-    const { id_music_album, id_artist } = req.body;
+  if (!errors.isEmpty() && errors.errors[0].param === "title") {
+    return res.status(400).send({ msg: "Title cannot be empty." });
+  }
+  if (!errors.isEmpty() && errors.errors[0].param === "release_date") {
+    return res.status(400).send({ msg: "Release date cannot be empty." });
+  }
+  if (!errors.isEmpty() && errors.errors[0].param === "duration") {
+    return res.status(400).send({ msg: "Duration cannot be empty." });
+  }
+  if (!errors.isEmpty() && errors.errors[0].param === "type_of_album") {
+    return res.status(400).send({ msg: "Type of album cannot be empty." });
+  }
+  if (!errors.isEmpty() && errors.errors[0].param === "genre") {
+    return res.status(400).send({ msg: "Genre cannot be empty." });
+  }
+  if (!errors.isEmpty() && errors.errors[0].param === "record_label") {
+    return res.status(400).send({ msg: "Record label cannot be empty." });
+  }
 
-    const assign = await dbManageAlbums.assignArtistToAlbum(id_music_album, id_artist);
-    return res
-      .status(201)
-      .send({ msg: "Assign have been added" });
+  if (req.fileValidationError) {
+    return res.status(403).send({
+      msg: "Only .png, .jpg and .jpeg format allowed and image must have less than 50kB!",
+    });
+  }
+
+  try {
+    const {
+      id_music_album,
+      title,
+      release_date,
+      duration,
+      type_of_album,
+      genre,
+      record_label,
+    } = req.body;
+    const cover = req.file.filename;
+
+    await dbManageAlbums.editAlbum(
+      id_music_album,
+      title,
+      cover,
+      release_date,
+      duration,
+      type_of_album,
+      genre,
+      record_label
+    );
+    return res.status(200).send({ msg: "Album have been edited" });
   } catch (e) {
     console.log(e);
     return res.sendStatus(500);
   }
 };
 
-// get_text_by_id_text = async (req, res) => {
-//   try {
-//     const id_text = req.params.id_text;
-//     const text = await dbManageTexts.getTextByIdText(id_text);
-//     if (text === undefined) {
-//       return res.sendStatus(404);
-//     }
-//     console.log(text);
-//     return res.json(text);
-//   } catch (e) {
-//     console.log(e);
-//     return res.sendStatus(500);
-//   }
-// };
+assign_artist_to_album = async (req, res) => {
+  try {
+    const { id_music_album, id_artist } = req.body;
+
+    await dbManageAlbums.assignArtistToAlbum(id_music_album, id_artist);
+    return res.status(201).send({ msg: "Assign have been added" });
+  } catch (e) {
+    console.log(e);
+    return res.sendStatus(500);
+  }
+};
+
+get_album_by_id = async (req, res) => {
+  try {
+    const id_music_album = req.params.id_music_album;
+    const album = await dbManageAlbums.getAlbumById(id_music_album);
+    if (album === undefined) {
+      return res.sendStatus(404);
+    }
+    console.log(album);
+    return res.json(album);
+  } catch (e) {
+    console.log(e);
+    return res.sendStatus(500);
+  }
+};
+
+get_all_albums = async (req, res) => {
+  try {
+    const albums = await dbManageAlbums.getAllAlbums();
+    return res.json(albums);
+  } catch (e) {
+    console.log(e);
+    return res.sendStatus(500);
+  }
+};
 
 module.exports = {
   add_album,
+  edit_album,
+  assign_artist_to_album,
+  get_album_by_id,
+  get_all_albums,
 };

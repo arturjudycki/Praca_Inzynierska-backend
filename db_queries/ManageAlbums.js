@@ -42,16 +42,28 @@ db.addAlbum = (
   });
 };
 
-db.addAlbum = (
+db.editAlbum = (
   id_music_album,
-  id_artist,
+  title,
+  cover,
+  release_date,
+  duration,
+  type_of_album,
+  genre,
+  record_label
 ) => {
   return new Promise((resolve, reject) => {
     pool.query(
-      "INSERT INTO position_albums (music_album, artist) VALUES (?,?)",
+      "UPDATE music_albums SET title = ?, cover = ?, release_date = ?, duration = ?, type_of_album = ?, genre = ?, record_label =? WHERE id_music_album = ?",
       [
+        title,
+        cover,
+        release_date,
+        duration,
+        type_of_album,
+        genre,
+        record_label,
         id_music_album,
-        id_artist,
       ],
       (error, result) => {
         if (error) {
@@ -63,19 +75,45 @@ db.addAlbum = (
   });
 };
 
-// db.getAlbumByIdAlbum = (id_album) => {
-//   return new Promise((resolve, reject) => {
-//     pool.query(
-//       "SELECT * FROM music_albums WHERE id_music_album = ?",
-//       [id_album],
-//       (error, result) => {
-//         if (error) {
-//           return reject(error);
-//         }
-//         return resolve(result[0]);
-//       }
-//     );
-//   });
-// };
+db.assignArtistToAlbum = (id_music_album, id_artist) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      "INSERT INTO position_albums (music_album, artist) VALUES (?,?)",
+      [id_music_album, id_artist],
+      (error, result) => {
+        if (error) {
+          return reject(error);
+        }
+        return resolve(result);
+      }
+    );
+  });
+};
+
+db.getAlbumById = (id_music_album) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      "SELECT * FROM music_albums WHERE id_music_album = ?",
+      [id_music_album],
+      (error, result) => {
+        if (error) {
+          return reject(error);
+        }
+        return resolve(result[0]);
+      }
+    );
+  });
+};
+
+db.getAllAlbums = () => {
+  return new Promise((resolve, reject) => {
+    pool.query("SELECT * FROM music_albums", (error, result) => {
+      if (error) {
+        return reject(error);
+      }
+      return resolve(result);
+    });
+  });
+};
 
 module.exports = db;

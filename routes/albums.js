@@ -56,4 +56,23 @@ router.post(
   album_controller.add_album
 );
 
+router.put(
+  "/editAlbum",
+  [
+    check("title").notEmpty(),
+    check("release_date").notEmpty(),
+    check("duration").notEmpty(),
+    check("type_of_album").notEmpty(),
+    check("genre").notEmpty(),
+    check("record_label").notEmpty(),
+  ],
+  helpers.isAuthenticated,
+  helpers.isAdmin,
+  album_controller.edit_album
+);
+
+router.get("/getAllAlbums", album_controller.get_all_albums);
+
+router.get("/:id_music_album/getAlbumById", album_controller.get_album_by_id);
+
 module.exports = router;
