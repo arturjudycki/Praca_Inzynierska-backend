@@ -3,6 +3,7 @@ const dbManageAlbums = require("../db_queries/ManageAlbums");
 
 add_album = async (req, res) => {
   const errors = validationResult(req);
+  console.log(errors);
 
   if (!errors.isEmpty() && errors.errors[0].param === "title") {
     return res.status(400).send({ msg: "Title cannot be empty." });

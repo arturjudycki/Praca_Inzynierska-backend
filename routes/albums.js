@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const { check } = require("express-validator");
+const { check, body } = require("express-validator");
 const multer = require("multer");
 const path = require("path");
 
@@ -42,15 +42,15 @@ const upload = multer({
 
 router.post(
   "/addAlbum",
-  [
-    check("title").notEmpty(),
-    check("release_date").notEmpty(),
-    check("duration").notEmpty(),
-    check("type_of_album").notEmpty(),
-    check("genre").notEmpty(),
-    check("record_label").notEmpty(),
-  ],
   upload.single("cover"),
+  [
+    body("title").notEmpty(),
+    body("release_date").notEmpty(),
+    body("duration").notEmpty(),
+    body("type_of_album").notEmpty(),
+    body("genre").notEmpty(),
+    body("record_label").notEmpty(),
+  ],
   helpers.isAuthenticated,
   helpers.isAdmin,
   album_controller.add_album
@@ -58,6 +58,7 @@ router.post(
 
 router.put(
   "/editAlbum",
+  // upload.single("cover"),
   [
     check("title").notEmpty(),
     check("release_date").notEmpty(),

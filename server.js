@@ -1,6 +1,7 @@
 const express = require("express");
 require("dotenv").config();
 const mysql = require("mysql2/promise");
+const path = require("path");
 const session = require("express-session");
 const mysqlStore = require("express-mysql-session")(session);
 var cors = require("cors");
@@ -35,8 +36,8 @@ const connection = mysql.createPool(options);
 const sessionStore = new mysqlStore({}, connection);
 
 server.use(cors(corsOptions));
-server.use(express.json()); //middleware
-server.use(express.urlencoded({ extended: false })); //middleware
+server.use(express.json());
+server.use(express.urlencoded({ extended: false }));
 
 server.use(
   session({
@@ -65,6 +66,7 @@ server.use("/album", albumRoute);
 server.use("/artist", artistRoute);
 server.use("/song", songRoute);
 server.use("/rate", rateRoute);
+server.use("/images", express.static(__dirname + "/images"));
 
 
 server.listen(process.env.APP_PORT, () => {
