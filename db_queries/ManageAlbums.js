@@ -116,4 +116,34 @@ db.getAllAlbums = () => {
   });
 };
 
+db.assignArtistToAlbum = (id_music_album, id_artist) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      "INSERT INTO position_albums (music_album, artist) VALUES (?,?)",
+      [id_music_album, id_artist],
+      (error, result) => {
+        if (error) {
+          return reject(error);
+        }
+        return resolve(result);
+      }
+    );
+  });
+};
+
+db.getArtistsByAlbumId = (id_music_album) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      "SELECT artists.id_artist, artists.name FROM artists, position_albums WHERE artists.id_artist=position_albums.artist AND position_albums.music_album = ?",
+      [id_music_album],
+      (error, result) => {
+        if (error) {
+          return reject(error);
+        }
+        return resolve(result);
+      }
+    );
+  });
+};
+
 module.exports = db;

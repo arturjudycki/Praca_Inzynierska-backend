@@ -116,18 +116,6 @@ edit_album = async (req, res) => {
   }
 };
 
-assign_artist_to_album = async (req, res) => {
-  try {
-    const { id_music_album, id_artist } = req.body;
-
-    await dbManageAlbums.assignArtistToAlbum(id_music_album, id_artist);
-    return res.status(201).send({ msg: "Assign have been added" });
-  } catch (e) {
-    console.log(e);
-    return res.sendStatus(500);
-  }
-};
-
 get_album_by_id = async (req, res) => {
   try {
     const id_music_album = req.params.id_music_album;
@@ -153,10 +141,38 @@ get_all_albums = async (req, res) => {
   }
 };
 
+assign_artist_to_album = async (req, res) => {
+  try {
+    const { id_music_album, id_artist } = req.body;
+
+    await dbManageAlbums.assignArtistToAlbum(id_music_album, id_artist);
+    return res.status(201).send({ msg: "Assign have been added" });
+  } catch (e) {
+    console.log(e);
+    return res.sendStatus(500);
+  }
+};
+
+get_artists_by_album_id = async (req, res) => {
+  try {
+    const id_music_album = req.params.id_music_album;
+    const artists = await dbManageAlbums.getArtistsByAlbumId(id_music_album);
+    if (artists === undefined) {
+      return res.sendStatus(404);
+    }
+    console.log(artists);
+    return res.json(artists);
+  } catch (e) {
+    console.log(e);
+    return res.sendStatus(500);
+  }
+};
+
 module.exports = {
   add_album,
   edit_album,
-  assign_artist_to_album,
   get_album_by_id,
   get_all_albums,
+  assign_artist_to_album,
+  get_artists_by_album_id,
 };

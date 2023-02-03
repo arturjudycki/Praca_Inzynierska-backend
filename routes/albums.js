@@ -74,6 +74,21 @@ router.put(
 
 router.get("/getAllAlbums", album_controller.get_all_albums);
 
+router.post(
+  "/assignArtistToAlbum",
+  helpers.isAuthenticated,
+  helpers.isAdmin,
+  album_controller.assign_artist_to_album
+);
+
+router.get(
+  "/:id_music_album/getArtistsByAlbumId",
+  album_controller.get_artists_by_album_id
+);
+
 router.get("/:id_music_album/getAlbumById", album_controller.get_album_by_id);
+
+
+
 
 module.exports = router;

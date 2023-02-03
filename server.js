@@ -56,7 +56,7 @@ server.use(
 server.use((req, res, next) => {
   console.log(`${req.method} - ${req.url} - ${req.session}`);
   next();
-}); // middleware
+});
 
 server.use("/auth", authRoute);
 server.use("/user", userRoute);
