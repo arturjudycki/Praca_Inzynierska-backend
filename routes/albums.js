@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const { check, body } = require("express-validator");
+const { check } = require("express-validator");
 const multer = require("multer");
 const path = require("path");
 
@@ -44,12 +44,12 @@ router.post(
   "/addAlbum",
   upload.single("cover"),
   [
-    body("title").notEmpty(),
-    body("release_date").notEmpty(),
-    body("duration").notEmpty(),
-    body("type_of_album").notEmpty(),
-    body("genre").notEmpty(),
-    body("record_label").notEmpty(),
+    check("title").notEmpty(),
+    check("release_date").notEmpty(),
+    check("duration").notEmpty(),
+    check("type_of_album").notEmpty(),
+    check("genre").notEmpty(),
+    check("record_label").notEmpty(),
   ],
   helpers.isAuthenticated,
   helpers.isAdmin,
@@ -57,8 +57,7 @@ router.post(
 );
 
 router.put(
-  "/editAlbum",
-  // upload.single("cover"),
+  "/editInfoAlbum",
   [
     check("title").notEmpty(),
     check("release_date").notEmpty(),
@@ -69,7 +68,15 @@ router.put(
   ],
   helpers.isAuthenticated,
   helpers.isAdmin,
-  album_controller.edit_album
+  album_controller.edit_info_album
+);
+
+router.put(
+  "/editCoverAlbum",
+  upload.single("cover"),
+  helpers.isAuthenticated,
+  helpers.isAdmin,
+  album_controller.edit_info_album
 );
 
 router.get("/getAllAlbums", album_controller.get_all_albums);
@@ -80,6 +87,10 @@ router.post(
   helpers.isAdmin,
   album_controller.assign_artist_to_album
 );
+
+// router.get("/getAssignArtists", album_controller.get_assign_artists);
+
+router.delete("/deleteAssignArtist", album_controller.delete_assign_artist);
 
 router.get(
   "/:id_music_album/getArtistsByAlbumId",

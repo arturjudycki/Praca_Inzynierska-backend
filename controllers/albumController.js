@@ -1,9 +1,9 @@
 const { validationResult } = require("express-validator");
 const dbManageAlbums = require("../db_queries/ManageAlbums");
+const fs = require("fs");
 
 add_album = async (req, res) => {
   const errors = validationResult(req);
-  console.log(errors);
 
   if (!errors.isEmpty() && errors.errors[0].param === "title") {
     return res.status(400).send({ msg: "Title cannot be empty." });
@@ -59,7 +59,7 @@ add_album = async (req, res) => {
   }
 };
 
-edit_album = async (req, res) => {
+edit_info_album = async (req, res) => {
   const errors = validationResult(req);
 
   if (!errors.isEmpty() && errors.errors[0].param === "title") {
@@ -81,12 +81,6 @@ edit_album = async (req, res) => {
     return res.status(400).send({ msg: "Record label cannot be empty." });
   }
 
-  if (req.fileValidationError) {
-    return res.status(403).send({
-      msg: "Only .png, .jpg and .jpeg format allowed and image must have less than 50kB!",
-    });
-  }
-
   try {
     const {
       id_music_album,
@@ -97,12 +91,10 @@ edit_album = async (req, res) => {
       genre,
       record_label,
     } = req.body;
-    const cover = req.file.filename;
 
-    await dbManageAlbums.editAlbum(
+    await dbManageAlbums.editInfoAlbum(
       id_music_album,
       title,
-      cover,
       release_date,
       duration,
       type_of_album,
@@ -110,6 +102,38 @@ edit_album = async (req, res) => {
       record_label
     );
     return res.status(200).send({ msg: "Album have been edited" });
+  } catch (e) {
+    console.log(e);
+    return res.sendStatus(500);
+  }
+};
+
+edit_cover_album = async (req, res) => {
+  if (req.fileValidationError) {
+    return res.status(403).send({
+      msg: "Only .png, .jpg and .jpeg format allowed and image must have less than 50kB!",
+    });
+  }
+
+  try {
+    const { id_music_album } = req.body;
+    const cover = req.file.filename;
+
+    const oldPhoto = await dbManageAlbums.getCoverAlbum(id_music_album);
+    if (oldPhoto.cover) {
+      const oldPath = path.join(__dirname, "..", "images", oldPhoto.cover);
+      if (fs.existsSync(oldPath)) {
+        fs.unlink(oldPath, (err) => {
+          if (err) {
+            console.error(err);
+            return;
+          }
+          // res.status(200).send(userObj);
+        });
+      }
+    }
+    await dbManageAlbums.editCoverAlbum(id_music_album, cover);
+    return res.status(200).send({ msg: "Cover of album have been edited" });
   } catch (e) {
     console.log(e);
     return res.sendStatus(500);
@@ -153,6 +177,34 @@ assign_artist_to_album = async (req, res) => {
   }
 };
 
+// get_assign_artists = async (req, res) => {
+//   try {
+//     const { id_music_album } = req.body;
+
+//     const artists = await dbManageAlbums.getArtistsByAlbumId(id_music_album);
+//     if (artists === undefined) {
+//       return res.sendStatus(404);
+//     }
+//     console.log(artists);
+//     return res.json(artists);
+//   } catch (e) {
+//     console.log(e);
+//     return res.sendStatus(500);
+//   }
+// };
+
+delete_assign_artist = async (req, res) => {
+  try {
+    const { id_music_album, id_artist } = req.body;
+
+    await dbManageAlbums.deleteAssignArtist(id_music_album, id_artist);
+    return res.status(200).send({ msg: "Assign have been deleted" });
+  } catch (e) {
+    console.log(e);
+    return res.sendStatus(500);
+  }
+};
+
 get_artists_by_album_id = async (req, res) => {
   try {
     const id_music_album = req.params.id_music_album;
@@ -170,9 +222,11 @@ get_artists_by_album_id = async (req, res) => {
 
 module.exports = {
   add_album,
-  edit_album,
+  edit_info_album,
   get_album_by_id,
   get_all_albums,
   assign_artist_to_album,
   get_artists_by_album_id,
+  // get_assign_artists,
+  delete_assign_artist,
 };
