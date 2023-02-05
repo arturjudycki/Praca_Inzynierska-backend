@@ -92,7 +92,7 @@ db.editCoverAlbum = (id_music_album, cover) => {
   return new Promise((resolve, reject) => {
     pool.query(
       "UPDATE music_albums SET cover = ? WHERE id_music_album = ?",
-      [id_music_album, cover],
+      [cover, id_music_album],
       (error, result) => {
         if (error) {
           return reject(error);

@@ -71,12 +71,12 @@ router.put(
   album_controller.edit_info_album
 );
 
-router.put(
+router.patch(
   "/editCoverAlbum",
   upload.single("cover"),
   helpers.isAuthenticated,
   helpers.isAdmin,
-  album_controller.edit_info_album
+  album_controller.edit_cover_album
 );
 
 router.get("/getAllAlbums", album_controller.get_all_albums);

@@ -1,6 +1,7 @@
 const { validationResult } = require("express-validator");
 const dbManageAlbums = require("../db_queries/ManageAlbums");
 const fs = require("fs");
+const path = require("path");
 
 add_album = async (req, res) => {
   const errors = validationResult(req);
@@ -120,6 +121,7 @@ edit_cover_album = async (req, res) => {
     const cover = req.file.filename;
 
     const oldPhoto = await dbManageAlbums.getCoverAlbum(id_music_album);
+    console.log(oldPhoto);
     if (oldPhoto.cover) {
       const oldPath = path.join(__dirname, "..", "images", oldPhoto.cover);
       if (fs.existsSync(oldPath)) {
@@ -223,6 +225,7 @@ get_artists_by_album_id = async (req, res) => {
 module.exports = {
   add_album,
   edit_info_album,
+  edit_cover_album,
   get_album_by_id,
   get_all_albums,
   assign_artist_to_album,
