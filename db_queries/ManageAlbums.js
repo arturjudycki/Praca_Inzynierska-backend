@@ -162,7 +162,7 @@ db.getArtistsByAlbumId = (id_music_album) => {
 db.deleteAssignArtist = (id_music_album, id_artist) => {
   return new Promise((resolve, reject) => {
     pool.query(
-      "DELETE FROM position_albums WHERE music_album = ?, artist = ?",
+      "DELETE FROM position_albums WHERE music_album = ? AND artist = ?",
       [id_music_album, id_artist],
       (error, result) => {
         if (error) {

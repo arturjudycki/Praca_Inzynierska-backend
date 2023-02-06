@@ -88,8 +88,6 @@ router.post(
   album_controller.assign_artist_to_album
 );
 
-// router.get("/getAssignArtists", album_controller.get_assign_artists);
-
 router.delete("/deleteAssignArtist", album_controller.delete_assign_artist);
 
 router.get(
