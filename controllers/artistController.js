@@ -42,6 +42,17 @@ get_artist_by_id = async (req, res) => {
   }
 };
 
+get_albums_by_artist_id = async (req, res) => {
+  try {
+    const id_artist = req.params.id_artist;
+    const albums = await dbManageAlbums.getAlbumsByArtistId(id_artist);
+    return res.json(albums);
+  } catch (e) {
+    console.log(e);
+    return res.sendStatus(500);
+  }
+};
+
 get_all_artists = async (req, res) => {
   try {
     const artists = await dbManageArtists.getAllArtists();
@@ -80,5 +91,6 @@ module.exports = {
   add_artist,
   get_artist_by_id,
   get_all_artists,
+  get_albums_by_artist_id,
   edit_artist,
 };

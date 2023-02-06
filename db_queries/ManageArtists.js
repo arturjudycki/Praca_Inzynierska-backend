@@ -67,4 +67,19 @@ db.editArtist = (id_artist, name, description, members) => {
   });
 };
 
+db.getAlbumsByArtistId = (id_artist) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      "SELECT music_albums.* FROM music_albums, position_albums WHERE music_albums.id_music_album=position_albums.music_album AND position_albums.artist = ?",
+      [id_artist],
+      (error, result) => {
+        if (error) {
+          return reject(error);
+        }
+        return resolve(result);
+      }
+    );
+  });
+};
+
 module.exports = db;

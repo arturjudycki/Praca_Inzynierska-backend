@@ -34,6 +34,11 @@ router.put(
 );
 
 router.get(
+  "/:id_artist/getAlbumsByArtistId",
+  artist_controller.get_albums_by_artist_id
+);
+
+router.get(
   "/:id_artist/getArtistById",
   helpers.isAuthenticated,
   helpers.isAdmin,

@@ -179,22 +179,6 @@ assign_artist_to_album = async (req, res) => {
   }
 };
 
-// get_assign_artists = async (req, res) => {
-//   try {
-//     const { id_music_album } = req.body;
-
-//     const artists = await dbManageAlbums.getArtistsByAlbumId(id_music_album);
-//     if (artists === undefined) {
-//       return res.sendStatus(404);
-//     }
-//     console.log(artists);
-//     return res.json(artists);
-//   } catch (e) {
-//     console.log(e);
-//     return res.sendStatus(500);
-//   }
-// };
-
 delete_assign_artist = async (req, res) => {
   try {
     const { id_music_album, id_artist } = req.body;
