@@ -45,7 +45,7 @@ get_artist_by_id = async (req, res) => {
 get_albums_by_artist_id = async (req, res) => {
   try {
     const id_artist = req.params.id_artist;
-    const albums = await dbManageAlbums.getAlbumsByArtistId(id_artist);
+    const albums = await dbManageArtists.getAlbumsByArtistId(id_artist);
     return res.json(albums);
   } catch (e) {
     console.log(e);

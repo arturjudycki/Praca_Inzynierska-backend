@@ -39,6 +39,7 @@ CREATE TABLE `position_albums` (
 
 LOCK TABLES `position_albums` WRITE;
 /*!40000 ALTER TABLE `position_albums` DISABLE KEYS */;
+INSERT INTO `position_albums` VALUES (20,23),(21,23),(22,23),(24,26),(24,27),(25,28);
 /*!40000 ALTER TABLE `position_albums` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-01-31 22:28:21
+-- Dump completed on 2023-02-06 17:37:37

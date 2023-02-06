@@ -29,7 +29,7 @@ CREATE TABLE `artists` (
   `members` mediumtext NOT NULL,
   PRIMARY KEY (`id_artist`),
   UNIQUE KEY `id_artist_UNIQUE` (`id_artist`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,7 +38,7 @@ CREATE TABLE `artists` (
 
 LOCK TABLES `artists` WRITE;
 /*!40000 ALTER TABLE `artists` DISABLE KEYS */;
-INSERT INTO `artists` VALUES (1,'Nirvana','opis','czlonk'),(2,'Peral Jam','bb','aa'),(3,'eyatgartert','rweterwtre','eterterterwter'),(4,'gfsdgvdfsbv','ggvdfbvdfbvdf','bvdfbdfbfd');
+INSERT INTO `artists` VALUES (23,'Nirvana','Amerykański zespół grunge’owy, założony przez wokalistę i gitarzystę Kurta Cobaina i basistę Krista Novoselica w Aberdeen (USA) w 1987. Zespół w ciągu siedmiu lat swojej działalności zatrudniał kilku perkusistów (najdłużej w zespole grał Dave Grohl, który dołączył do grupy w 1990). ','Kurt Cobain - wokal, gitara\nKrist Novoselic - bas\nDave Grohl - perkusja'),(26,'The Velvet Underground','The Velvet Underground jest nowatorskim amerykańskim zespołem rockowym, należącym do awangardy rockowej. Grupa była aktywna głównie w latach 60. Zespół jest najwybitniejszym muzycznym przedstawicielem nurtu pop art. Formacja czerpała inspirację z muzyki współczesnej amerykańskiej awangardy, której głównym przedstawicielem był ekstrawagancki kompozytor John Cage. Muzycy znani są jako pionierzy takich gatunków muzyki popularnej jak: noise rock, alternatywny rock i punk rock. Ich znakiem rozpoznawczym były bardzo poetyckie i często bulwersujące teksty utworów, w których poruszali tematy taboo. ','Lou Reed - wokal, gitara\nJohn Cale - wokal, klawisze\nSterling Morrison - bas\nMoe Tucker - perkusja'),(27,'Nico','Niemiecka modelka, aktorka, piosenkarka, jedna z muz Andy’ego Warhola. Zasłynęła jako wokalistka The Velvet Underground, którego współzałożyciel John Cale znacząco ukształtował jej dorobek muzyczny jako producent muzyczny, instrumentalista, kompozytor i autor śpiewanych przez nią piosenek i tekstów. ','Nico - wokal'),(28,'Pearl Jam','Amerykański zespół muzyczny założony w 1990 w Seattle w stanie Waszyngton. Wraz z grupami Alice in Chains, Nirvana i Soundgarden zaliczany jest do tzw. „Wielkiej Czwórki z Seattle”. ','Eddie Vedder - wokal, gitara\nStone Gossard - gitara\nJeff Ament - bas\nMike McCready - gitara\nMatt Cameron - perkusja\nBoom Gaspar - klawisze');
 /*!40000 ALTER TABLE `artists` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-01-31 22:28:20
+-- Dump completed on 2023-02-06 17:37:37
