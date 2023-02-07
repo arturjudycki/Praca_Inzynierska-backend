@@ -11,11 +11,63 @@ const pool = mysql.createPool({
 
 let db = {};
 
-db.addSong = (title, duration, id_music_album, id_artist) => {
+db.addSong = (track_number, title, duration, id_music_album, id_artist) => {
   return new Promise((resolve, reject) => {
     pool.query(
-      "INSERT INTO songs (title, duration, music_album, artist) VALUES (?,?,?,?)",
-      [title, duration, id_music_album, id_artist],
+      "INSERT INTO songs (track_number, title, duration, music_album, artist) VALUES (?,?,?,?,?)",
+      [track_number, title, duration, id_music_album, id_artist],
+      (error, result) => {
+        if (error) {
+          return reject(error);
+        }
+        return resolve(result);
+      }
+    );
+  });
+};
+
+db.getSongsOfAlbum = (id_music_album) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      "SELECT songs.id_song, songs.track_number, songs.title, songs.duration, artists.name FROM songs, artists WHERE songs.artist = artists.id_artist AND songs.music_album = ?",
+      [id_music_album],
+      (error, result) => {
+        if (error) {
+          return reject(error);
+        }
+        return resolve(result);
+      }
+    );
+  });
+};
+
+db.editSong = (
+  id_song,
+  track_number,
+  title,
+  duration,
+  id_music_album,
+  id_artist
+) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      "UPDATE songs SET track_number = ?, title = ?, duration = ?, music_album = ?, artist = ? WHERE id_song = ?",
+      [track_number, title, duration, id_music_album, id_artist, id_song],
+      (error, result) => {
+        if (error) {
+          return reject(error);
+        }
+        return resolve(result);
+      }
+    );
+  });
+};
+
+db.deleteSong = (id_song) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      "DELETE FROM songs WHERE id_song = ?",
+      [id_song],
       (error, result) => {
         if (error) {
           return reject(error);
