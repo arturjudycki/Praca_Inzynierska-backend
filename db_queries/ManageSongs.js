@@ -29,7 +29,7 @@ db.addSong = (track_number, title, duration, id_music_album, id_artist) => {
 db.getSongsOfAlbum = (id_music_album) => {
   return new Promise((resolve, reject) => {
     pool.query(
-      "SELECT songs.id_song, songs.track_number, songs.title, songs.duration, artists.name FROM songs, artists WHERE songs.artist = artists.id_artist AND songs.music_album = ?",
+      "SELECT songs.*, artists.name FROM songs, artists WHERE songs.artist = artists.id_artist AND songs.music_album = ?",
       [id_music_album],
       (error, result) => {
         if (error) {

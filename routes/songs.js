@@ -25,7 +25,7 @@ router.get(
   song_controller.get_songs_of_album
 );
 
-router.post(
+router.put(
   "/editSong",
   [
     check("track_number").notEmpty(),
@@ -38,7 +38,7 @@ router.post(
   song_controller.edit_song
 );
 
-router.post(
+router.delete(
   "/deleteSong",
   helpers.isAuthenticated,
   helpers.isAdmin,
