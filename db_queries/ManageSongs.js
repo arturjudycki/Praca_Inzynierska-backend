@@ -56,6 +56,17 @@ db.getSong = (id_song) => {
   });
 };
 
+db.getAllSongs = () => {
+  return new Promise((resolve, reject) => {
+    pool.query("SELECT * FROM songs", [], (error, result) => {
+      if (error) {
+        return reject(error);
+      }
+      return resolve(result);
+    });
+  });
+};
+
 db.editSong = (
   id_song,
   track_number,

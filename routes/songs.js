@@ -20,6 +20,8 @@ router.post(
   song_controller.add_song
 );
 
+router.get("/getAllSongs", song_controller.get_all_songs);
+
 router.get("/:id_song/getSong", song_controller.get_song);
 
 router.get(
