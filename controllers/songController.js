@@ -50,6 +50,21 @@ get_songs_of_album = async (req, res) => {
   }
 };
 
+get_song = async (req, res) => {
+  try {
+    const id_song = req.params.id_song;
+
+    const song = await dbManageSongs.getSong(id_song);
+    if (song === undefined) {
+      return res.sendStatus(404);
+    }
+    return res.json(song);
+  } catch (e) {
+    console.log(e);
+    return res.sendStatus(500);
+  }
+};
+
 edit_song = async (req, res) => {
   try {
     const {
@@ -91,6 +106,7 @@ delete_song = async (req, res) => {
 module.exports = {
   add_song,
   get_songs_of_album,
+  get_song,
   edit_song,
   delete_song,
 };
