@@ -8,11 +8,15 @@ const router = Router();
 const rate_controller = require("../controllers/rateController");
 
 router.post(
-  "/addRate",
-  //   [check("rating_date").notEmpty()],
+  "/addRateAlbum",
   helpers.isAuthenticated,
-  helpers.isAdmin,
-  rate_controller.add_rate
+  rate_controller.add_rate_album
+);
+
+router.post(
+  "/addRateSong",
+  helpers.isAuthenticated,
+  rate_controller.add_rate_song
 );
 
 module.exports = router;

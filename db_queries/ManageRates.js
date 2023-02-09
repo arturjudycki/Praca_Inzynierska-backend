@@ -11,16 +11,52 @@ const pool = mysql.createPool({
 
 let db = {};
 
-db.addRate = (rating_date) => {
+db.addRateAlbum = (
+  numerical_rating,
+  verbal_rating,
+  rating_date,
+  favourites,
+  music_album,
+  user
+) => {
   return new Promise((resolve, reject) => {
     pool.query(
-      "INSERT INTO rates (rating_date) VALUES (?)",
-      [rating_date],
+      "INSERT INTO rates (numerical_rating, verbal_rating, rating_date, favourites, music_album, user) VALUES (?,?,?,?,?,?)",
+      [
+        numerical_rating,
+        verbal_rating,
+        rating_date,
+        favourites,
+        music_album,
+        user,
+      ],
       (error, result) => {
         if (error) {
           return reject(error);
         }
-        return resolve(result);
+        return resolve(result.insertId);
+      }
+    );
+  });
+};
+
+db.addRateSong = (
+  numerical_rating,
+  verbal_rating,
+  rating_date,
+  favourites,
+  song,
+  user
+) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      "INSERT INTO rates (numerical_rating, verbal_rating, rating_date, favourites, song, user) VALUES (?,?,?,?,?,?)",
+      [numerical_rating, verbal_rating, rating_date, favourites, song, user],
+      (error, result) => {
+        if (error) {
+          return reject(error);
+        }
+        return resolve(result.insertId);
       }
     );
   });
