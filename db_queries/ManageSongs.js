@@ -58,12 +58,16 @@ db.getSong = (id_song) => {
 
 db.getAllSongs = () => {
   return new Promise((resolve, reject) => {
-    pool.query("SELECT * FROM songs", [], (error, result) => {
-      if (error) {
-        return reject(error);
+    pool.query(
+      "SELECT songs.*, artists.name, music_albums.cover FROM songs, artists, music_albums WHERE songs.artist = artists.id_artist AND songs.music_album = music_albums.id_music_album",
+      [],
+      (error, result) => {
+        if (error) {
+          return reject(error);
+        }
+        return resolve(result);
       }
-      return resolve(result);
-    });
+    );
   });
 };
 
