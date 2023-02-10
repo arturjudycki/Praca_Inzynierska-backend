@@ -62,4 +62,19 @@ db.addRateSong = (
   });
 };
 
+db.getRateAlbumOfUser = (music_album, user) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      "SELECT * FROM rates WHERE music_album = ? AND user ?",
+      [music_album, user],
+      (error, result) => {
+        if (error) {
+          return reject(error);
+        }
+        return resolve(result[0]);
+      }
+    );
+  });
+};
+
 module.exports = db;

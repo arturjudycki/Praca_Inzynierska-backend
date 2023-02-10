@@ -19,4 +19,10 @@ router.post(
   rate_controller.add_rate_song
 );
 
+router.get(
+  "/:music_album/getRateAlbumOfUser",
+  helpers.isAuthenticated,
+  rate_controller.get_rate_album_of_user
+);
+
 module.exports = router;

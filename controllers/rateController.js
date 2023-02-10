@@ -2,8 +2,6 @@ const { validationResult } = require("express-validator");
 const dbManageRates = require("../db_queries/ManageRates");
 
 add_rate_album = async (req, res) => {
-  const errors = validationResult(req);
-
   try {
     const { numerical_rating, verbal_rating, favourites, music_album, user } =
       req.body;
@@ -27,8 +25,6 @@ add_rate_album = async (req, res) => {
 };
 
 add_rate_song = async (req, res) => {
-  const errors = validationResult(req);
-
   try {
     const { numerical_rating, verbal_rating, favourites, song, user } =
       req.body;
@@ -51,7 +47,24 @@ add_rate_song = async (req, res) => {
   }
 };
 
+get_rate_album_of_user = async (req, res) => {
+  try {
+    const music_album = req.params.music_album;
+    const user = req.session.user;
+
+    const rate = await dbManageRates.getRateAlbumOfUser(music_album, user);
+    if (rate === undefined) {
+      return res.sendStatus(404);
+    }
+    return res.json(rate);
+  } catch (e) {
+    console.log(e);
+    return res.sendStatus(500);
+  }
+};
+
 module.exports = {
   add_rate_album,
   add_rate_song,
+  get_rate_album_of_user,
 };
