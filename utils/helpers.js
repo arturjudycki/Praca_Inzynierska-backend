@@ -32,6 +32,22 @@ async function isAuthorOfComment(req, res, next) {
     return res.status(403).send({ msg: "You are not author of that comment" });
 }
 
+async function isAlbumRated(req, res, next) {
+  const music_album = req.params.music_album;
+  const user = req.session.user;
+  const rate = await dbManageRates.isAlbumRated(music_album, user);
+  if (rate.length !== 0) next();
+  else return res.status(403).send({ msg: "You did not rate that album" });
+}
+
+async function isSongRated(req, res, next) {
+  const song = req.params.song;
+  const user = req.session.user;
+  const rate = await dbManageRates.isSongRated(song, user);
+  if (rate.length !== 0) next();
+  else return res.status(403).send({ msg: "You did not rate that song" });
+}
+
 async function validateResetToken(req, res, next) {
   const email = req.body.email;
   const resetToken = req.body.token;
@@ -52,4 +68,6 @@ module.exports = {
   isEditorOrAdmin,
   isAuthorOfComment,
   validateResetToken,
+  isAlbumRated,
+  isSongRated,
 };

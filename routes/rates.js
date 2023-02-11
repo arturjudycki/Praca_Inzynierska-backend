@@ -25,4 +25,14 @@ router.get(
   rate_controller.get_rate_album_of_user
 );
 
+router.get(
+  "/:music_album/getStatisticsOfAlbum",
+  rate_controller.get_statistics_of_album
+);
+
+router.get(
+  "/:song/getStatisticsOfSong",
+  rate_controller.get_statistics_of_song
+);
+
 module.exports = router;

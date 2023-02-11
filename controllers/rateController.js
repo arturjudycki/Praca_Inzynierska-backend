@@ -63,8 +63,40 @@ get_rate_album_of_user = async (req, res) => {
   }
 };
 
+get_statistics_of_album = async (req, res) => {
+  try {
+    const music_album = req.params.music_album;
+
+    const stats = await dbManageRates.getStatisticsOfAlbum(music_album);
+    if (stats === undefined) {
+      return res.sendStatus(404);
+    }
+    return res.json(stats);
+  } catch (e) {
+    console.log(e);
+    return res.sendStatus(500);
+  }
+};
+
+get_statistics_of_song = async (req, res) => {
+  try {
+    const song = req.params.song;
+
+    const stats = await dbManageRates.getStatisticsOfSong(song);
+    if (stats === undefined) {
+      return res.sendStatus(404);
+    }
+    return res.json(stats);
+  } catch (e) {
+    console.log(e);
+    return res.sendStatus(500);
+  }
+};
+
 module.exports = {
   add_rate_album,
   add_rate_song,
   get_rate_album_of_user,
+  get_statistics_of_song,
+  get_statistics_of_album,
 };
