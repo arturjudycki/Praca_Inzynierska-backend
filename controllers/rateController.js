@@ -47,16 +47,62 @@ add_rate_song = async (req, res) => {
   }
 };
 
-get_rate_album_of_user = async (req, res) => {
+get_rate_album_by_user = async (req, res) => {
   try {
     const music_album = req.params.music_album;
     const user = req.session.user;
 
-    const rate = await dbManageRates.getRateAlbumOfUser(music_album, user);
+    const rate = await dbManageRates.getRateAlbumByUser(music_album, user);
     if (rate === undefined) {
       return res.sendStatus(404);
     }
     return res.json(rate);
+  } catch (e) {
+    console.log(e);
+    return res.sendStatus(500);
+  }
+};
+
+get_all_rates_albums_by_user = async (req, res) => {
+  try {
+    const username = req.params.username;
+
+    const rates = await dbManageRates.getAllRatesAlbumsByUser(username);
+    if (rates === undefined) {
+      return res.sendStatus(404);
+    }
+    return res.json(rates);
+  } catch (e) {
+    console.log(e);
+    return res.sendStatus(500);
+  }
+};
+
+get_rate_song_by_user = async (req, res) => {
+  try {
+    const song = req.params.song;
+    const user = req.session.user;
+
+    const rate = await dbManageRates.getRateSongByUser(song, user);
+    if (rate === undefined) {
+      return res.sendStatus(404);
+    }
+    return res.json(rate);
+  } catch (e) {
+    console.log(e);
+    return res.sendStatus(500);
+  }
+};
+
+get_all_rates_songs_by_user = async (req, res) => {
+  try {
+    const username = req.params.username;
+
+    const rates = await dbManageRates.getAllRatesSongsByUser(username);
+    if (rates === undefined) {
+      return res.sendStatus(404);
+    }
+    return res.json(rates);
   } catch (e) {
     console.log(e);
     return res.sendStatus(500);
@@ -93,10 +139,44 @@ get_statistics_of_song = async (req, res) => {
   }
 };
 
+edit_rate = async (req, res) => {
+  try {
+    const { id_rate, numerical_rating, verbal_rating, favourites } = req.body;
+
+    await dbManageRates.editRate(
+      id_rate,
+      numerical_rating,
+      verbal_rating,
+      favourites
+    );
+    return res.status(200).send({ msg: "Rate have been edited" });
+  } catch (e) {
+    console.log(e);
+    return res.sendStatus(500);
+  }
+};
+
+delete_rate = async (req, res) => {
+  try {
+    const { id_rate } = req.body;
+
+    await dbManageRates.deleteRate(id_rate);
+    return res.status(200).send({ msg: "Rate have been deleted" });
+  } catch (e) {
+    console.log(e);
+    return res.sendStatus(500);
+  }
+};
+
 module.exports = {
   add_rate_album,
   add_rate_song,
-  get_rate_album_of_user,
+  get_rate_album_by_user,
+  get_rate_song_by_user,
+  get_all_rates_albums_by_user,
+  get_all_rates_songs_by_user,
   get_statistics_of_song,
   get_statistics_of_album,
+  edit_rate,
+  delete_rate,
 };

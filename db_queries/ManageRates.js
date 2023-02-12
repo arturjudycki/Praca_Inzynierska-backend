@@ -62,7 +62,7 @@ db.addRateSong = (
   });
 };
 
-db.deleteUser = (music_album, user) => {
+db.getRateAlbumByUser = (music_album, user) => {
   return new Promise((resolve, reject) => {
     pool.query(
       "SELECT * FROM rates WHERE music_album = ? AND user ?",
@@ -77,16 +77,46 @@ db.deleteUser = (music_album, user) => {
   });
 };
 
-db.getRateAlbumOfUser = (music_album, user) => {
+db.getAllRatesAlbumsByUser = (username) => {
   return new Promise((resolve, reject) => {
     pool.query(
-      "SELECT * FROM rates WHERE music_album = ? AND user ?",
-      [music_album, user],
+      "SELECT rates.* FROM rates WHERE music_album IS NOT NULL AND user = (SELECT users.id_user FROM users WHERE username = ?)",
+      [username],
+      (error, result) => {
+        if (error) {
+          return reject(error);
+        }
+        return resolve(result);
+      }
+    );
+  });
+};
+
+db.getRateSongByUser = (song, user) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      "SELECT * FROM rates WHERE song = ? AND user ?",
+      [song, user],
       (error, result) => {
         if (error) {
           return reject(error);
         }
         return resolve(result[0]);
+      }
+    );
+  });
+};
+
+db.getAllRatesSongsByUser = (username) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      "SELECT rates.* FROM rates WHERE song IS NOT NULL AND user = (SELECT users.id_user FROM users WHERE username = ?)",
+      [username],
+      (error, result) => {
+        if (error) {
+          return reject(error);
+        }
+        return resolve(result);
       }
     );
   });
@@ -142,6 +172,36 @@ db.isSongRated = (song, user) => {
     pool.query(
       "SELECT * FROM rates WHERE song = ? AND user = ?",
       [song, user],
+      (error, result) => {
+        if (error) {
+          return reject(error);
+        }
+        return resolve(result);
+      }
+    );
+  });
+};
+
+db.editRate = (id_rate, numerical_rating, verbal_rating, favourites) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      "UPDATE rates SET numerical_rating = ?, verbal_rating = ?, favourites = ? WHERE id_rate = ?",
+      [numerical_rating, verbal_rating, favourites, id_rate],
+      (error, result) => {
+        if (error) {
+          return reject(error);
+        }
+        return resolve(result);
+      }
+    );
+  });
+};
+
+db.deleteRate = (id_rate) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      "DELETE FROM rates WHERE id_rate = ?",
+      [id_rate],
       (error, result) => {
         if (error) {
           return reject(error);

@@ -20,9 +20,9 @@ router.post(
 );
 
 router.get(
-  "/:music_album/getRateAlbumOfUser",
+  "/:music_album/getRateAlbumByUser",
   helpers.isAuthenticated,
-  rate_controller.get_rate_album_of_user
+  rate_controller.get_rate_album_by_user
 );
 
 router.get(
@@ -31,8 +31,28 @@ router.get(
 );
 
 router.get(
+  "/:username/getAllRatesAlbumsByUser",
+  rate_controller.get_all_rates_albums_by_user
+);
+
+router.get(
+  "/:song/getRateSongByUser",
+  helpers.isAuthenticated,
+  rate_controller.get_rate_song_by_user
+);
+
+router.get(
   "/:song/getStatisticsOfSong",
   rate_controller.get_statistics_of_song
 );
+
+router.get(
+  "/:username/getAllRatesSongsByUser",
+  rate_controller.get_all_rates_songs_by_user
+);
+
+router.patch("/editRate", rate_controller.edit_rate);
+
+router.delete("/deleteRate", rate_controller.delete_rate);
 
 module.exports = router;
