@@ -1,5 +1,6 @@
 const db = require("../db_queries/AuthUser");
 const dbManageComments = require("../db_queries/ManageComments");
+const dbManageRates = require("../db_queries/ManageRates");
 
 function isAuthenticated(req, res, next) {
   if (req.session.user) next();
@@ -36,8 +37,13 @@ async function isAlbumRated(req, res, next) {
   const music_album = req.params.music_album;
   const user = req.session.user;
   const rate = await dbManageRates.isAlbumRated(music_album, user);
-  if (rate.length !== 0) next();
-  else return res.status(403).send({ msg: "You did not rate that album" });
+  console.log(rate.length);
+
+  if (rate.length !== 0) {
+    next();
+  } else {
+    return res.status(403).send({ msg: "You did not rate that album" });
+  }
 }
 
 async function isSongRated(req, res, next) {

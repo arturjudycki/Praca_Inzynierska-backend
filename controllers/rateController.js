@@ -53,9 +53,10 @@ get_rate_album_by_user = async (req, res) => {
     const user = req.session.user;
 
     const rate = await dbManageRates.getRateAlbumByUser(music_album, user);
-    if (rate === undefined) {
-      return res.sendStatus(404);
-    }
+    console.log(rate);
+    // if (rate === undefined) {
+    //   return res.sendStatus(404);
+    // }
     return res.json(rate);
   } catch (e) {
     console.log(e);

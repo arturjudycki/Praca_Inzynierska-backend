@@ -65,7 +65,7 @@ db.addRateSong = (
 db.getRateAlbumByUser = (music_album, user) => {
   return new Promise((resolve, reject) => {
     pool.query(
-      "SELECT * FROM rates WHERE music_album = ? AND user ?",
+      "SELECT * FROM rates WHERE music_album = ? AND user = ?",
       [music_album, user],
       (error, result) => {
         if (error) {
@@ -95,7 +95,7 @@ db.getAllRatesAlbumsByUser = (username) => {
 db.getRateSongByUser = (song, user) => {
   return new Promise((resolve, reject) => {
     pool.query(
-      "SELECT * FROM rates WHERE song = ? AND user ?",
+      "SELECT * FROM rates WHERE song = ? AND user = ?",
       [song, user],
       (error, result) => {
         if (error) {
