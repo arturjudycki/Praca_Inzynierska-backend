@@ -122,7 +122,7 @@ db.getAllRatesSongsByUser = (username) => {
   });
 };
 
-db.getStatisticsOfAllbum = (music_album) => {
+db.getStatisticsOfAlbum = (music_album) => {
   return new Promise((resolve, reject) => {
     pool.query(
       "SELECT COUNT(id_rate) AS quantity, AVG(numerical_rating) AS mean FROM rates WHERE music_album = ?",
