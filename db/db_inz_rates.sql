@@ -39,7 +39,7 @@ CREATE TABLE `rates` (
   CONSTRAINT `fk_rates_music_albums1` FOREIGN KEY (`music_album`) REFERENCES `music_albums` (`id_music_album`) ON DELETE CASCADE,
   CONSTRAINT `fk_rates_songs1` FOREIGN KEY (`song`) REFERENCES `songs` (`id_song`) ON DELETE CASCADE ON UPDATE RESTRICT,
   CONSTRAINT `fk_rates_users1` FOREIGN KEY (`user`) REFERENCES `users` (`id_user`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -48,6 +48,7 @@ CREATE TABLE `rates` (
 
 LOCK TABLES `rates` WRITE;
 /*!40000 ALTER TABLE `rates` DISABLE KEYS */;
+INSERT INTO `rates` VALUES (2,9,'','2023-02-12 19:58:27',0,NULL,20,1),(4,9,'Idealny balans pomiędzy grunge\'owością Bleach a melodyjnością Nevermind.','2023-02-13 14:01:18',1,NULL,21,1),(26,8,'','2023-02-13 16:15:00',0,NULL,24,1),(30,8,'','2023-02-13 17:01:17',0,NULL,21,2),(32,8,'','2023-02-13 17:48:55',0,NULL,22,1),(33,8,'','2023-02-13 19:24:54',0,1,NULL,1);
 /*!40000 ALTER TABLE `rates` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -60,4 +61,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-02-06 17:37:37
+-- Dump completed on 2023-02-14 21:45:24

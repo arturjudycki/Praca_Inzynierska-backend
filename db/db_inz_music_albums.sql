@@ -28,7 +28,7 @@ CREATE TABLE `music_albums` (
   `cover` varchar(255) NOT NULL,
   `release_date` date NOT NULL,
   `duration` varchar(45) NOT NULL,
-  `type_of_album` enum('studio_album','live_album','compilation_album','EP') NOT NULL,
+  `type_of_album` enum('studio_album','live_album','compilation_album','EP','OST') NOT NULL,
   `genre` varchar(255) NOT NULL,
   `record_label` varchar(255) NOT NULL,
   PRIMARY KEY (`id_music_album`),
@@ -42,7 +42,7 @@ CREATE TABLE `music_albums` (
 
 LOCK TABLES `music_albums` WRITE;
 /*!40000 ALTER TABLE `music_albums` DISABLE KEYS */;
-INSERT INTO `music_albums` VALUES (20,'Nevermind','cover_1675630744838_.jpg','1991-01-24','49 min 14 s','studio_album','grunge, rock alternatywny, rock','Geffen Records'),(21,'In Utero','cover_1675422066693_.jpg','1993-09-21','41 min 21 s','studio_album','grunge, rock alternatywny, rock','Geffen Records'),(22,'Bleach','cover_1675423727413_.jpg','1989-06-15','42 min 44 s','studio_album','grunge, hard rock, rock','Sub Pop'),(24,'The Velvet Underground & Nico','cover_1675435353989_.jpg','1968-03-12','47 min 51 s','studio_album','rock, rock awangardowy, art rock','Verve Records'),(25,'Ten','cover_1675444612524_.jpg','1991-08-27','53 min 20 s','studio_album','grunge, hard rock, rock','Epic Records');
+INSERT INTO `music_albums` VALUES (20,'Nevermind','cover_1675630744838_.jpg','1991-01-24','49 min 14 s','studio_album','grunge, rock alternatywny, rock','Geffen Records'),(21,'In Utero','cover_1675952620262_.jpg','1993-09-21','41 min 21 s','studio_album','grunge, rock alternatywny, rock','Geffen Records'),(22,'Bleach','cover_1675423727413_.jpg','1989-06-15','42 min 44 s','studio_album','grunge, hard rock, rock','Sub Pop'),(24,'The Velvet Underground & Nico','cover_1675435353989_.jpg','1968-03-12','47 min 51 s','studio_album','rock, rock awangardowy, art rock','Verve Records'),(25,'Ten','cover_1675444612524_.jpg','1991-08-27','53 min 20 s','studio_album','grunge, hard rock, rock','Epic Records');
 /*!40000 ALTER TABLE `music_albums` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -55,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-02-06 17:37:37
+-- Dump completed on 2023-02-14 21:45:22

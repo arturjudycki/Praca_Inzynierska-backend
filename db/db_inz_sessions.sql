@@ -36,7 +36,7 @@ CREATE TABLE `sessions` (
 
 LOCK TABLES `sessions` WRITE;
 /*!40000 ALTER TABLE `sessions` DISABLE KEYS */;
-INSERT INTO `sessions` VALUES ('OuKjkatrodH5WKDt36lomHyT559YH0dy',1676306104,'{\"cookie\":{\"originalMaxAge\":604800000,\"expires\":\"2023-02-11T10:23:51.244Z\",\"httpOnly\":true,\"path\":\"/\",\"sameSite\":true},\"user\":12}'),('gCwiIHRJwrnf9K-n_VMJQtpFRD1msnvo',1675891243,'{\"cookie\":{\"originalMaxAge\":604800000,\"expires\":\"2023-02-06T12:01:31.049Z\",\"httpOnly\":true,\"path\":\"/\",\"sameSite\":true},\"user\":1}'),('xknjTH278sI2tSkVxyOODH9Gwhw7Adcu',1675705312,'{\"cookie\":{\"originalMaxAge\":604800000,\"expires\":\"2023-02-06T15:17:18.497Z\",\"httpOnly\":true,\"path\":\"/\",\"sameSite\":true},\"user\":1}');
+INSERT INTO `sessions` VALUES ('2NJRsf3xRYT8rOKTG9PPCH-DJKaN2wLD',1676989145,'{\"cookie\":{\"originalMaxAge\":604800000,\"expires\":\"2023-02-19T16:49:49.123Z\",\"httpOnly\":true,\"path\":\"/\",\"sameSite\":true},\"user\":2}'),('dyIO8zfllnbA456jtSOba__RhYhegESk',1677011767,'{\"cookie\":{\"originalMaxAge\":604800000,\"expires\":\"2023-02-19T11:26:29.357Z\",\"httpOnly\":true,\"path\":\"/\",\"sameSite\":true},\"user\":1}');
 /*!40000 ALTER TABLE `sessions` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -49,4 +49,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-02-06 17:37:37
+-- Dump completed on 2023-02-14 21:45:23
