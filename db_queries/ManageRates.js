@@ -152,6 +152,51 @@ db.getStatisticsOfSong = (song) => {
   });
 };
 
+db.getAllRatesByUser = (username) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      "SELECT * FROM rates WHERE user = (SELECT id_user FROM users WHERE username = ?)",
+      [username],
+      (error, result) => {
+        if (error) {
+          return reject(error);
+        }
+        return resolve(result);
+      }
+    );
+  });
+};
+
+db.getIdUserByUsername = (username) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      "SELECT id_user FROM users WHERE username = ?",
+      [username],
+      (error, result) => {
+        if (error) {
+          return reject(error);
+        }
+        return resolve(result[0].id_user);
+      }
+    );
+  });
+};
+
+db.getStatisticsOfAllRatesByUser = (id_user) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      "SELECT count(id_rate) AS num_rates, (SELECT count(favourites) FROM rates WHERE favourites = 1 AND user = ?) AS num_fav, (SELECT count(music_album) WHERE music_album IS NOT NULL AND user = ?) AS num_rates_ma, (SELECT count(favourites) FROM rates WHERE favourites = 1 AND music_album IS NOT NULL AND user = ?) AS num_fav_ma, (SELECT count(song) FROM rates WHERE song IS NOT NULL AND user = ?) AS num_rates_s, (SELECT count(favourites) FROM rates WHERE favourites = 1 AND song IS NOT NULL AND user = ?) AS num_fav_s FROM rates WHERE user = ?",
+      [id_user, id_user, id_user, id_user, id_user, id_user],
+      (error, result) => {
+        if (error) {
+          return reject(error);
+        }
+        return resolve(result[0]);
+      }
+    );
+  });
+};
+
 db.isAlbumRated = (music_album, user) => {
   return new Promise((resolve, reject) => {
     pool.query(

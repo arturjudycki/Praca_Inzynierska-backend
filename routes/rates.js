@@ -53,6 +53,11 @@ router.get(
   rate_controller.get_all_rates_songs_by_user
 );
 
+router.get(
+  "/:username/getStatisticsOfAllRatesByUser",
+  rate_controller.get_statistics_of_all_rates_by_user
+);
+
 router.patch("/editRate", rate_controller.edit_rate);
 
 router.delete(
