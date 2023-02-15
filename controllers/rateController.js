@@ -159,7 +159,7 @@ get_statistics_of_all_rates_by_user = async (req, res) => {
   try {
     const username = req.params.username;
 
-    const id_user = await dbManageRates.getStatisticsOfAllRatesByUser(username);
+    const id_user = await dbManageRates.getIdUserByUsername(username);
 
     const stats = await dbManageRates.getStatisticsOfAllRatesByUser(id_user);
     if (stats === undefined) {

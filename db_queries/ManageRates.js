@@ -185,8 +185,18 @@ db.getIdUserByUsername = (username) => {
 db.getStatisticsOfAllRatesByUser = (id_user) => {
   return new Promise((resolve, reject) => {
     pool.query(
-      "SELECT count(id_rate) AS num_rates, (SELECT count(favourites) FROM rates WHERE favourites = 1 AND user = ?) AS num_fav, (SELECT count(music_album) WHERE music_album IS NOT NULL AND user = ?) AS num_rates_ma, (SELECT count(favourites) FROM rates WHERE favourites = 1 AND music_album IS NOT NULL AND user = ?) AS num_fav_ma, (SELECT count(song) FROM rates WHERE song IS NOT NULL AND user = ?) AS num_rates_s, (SELECT count(favourites) FROM rates WHERE favourites = 1 AND song IS NOT NULL AND user = ?) AS num_fav_s FROM rates WHERE user = ?",
-      [id_user, id_user, id_user, id_user, id_user, id_user],
+      "SELECT count(id_rate) AS num_rates, (SELECT count(favourites) FROM rates WHERE favourites = 1 AND user = ?) AS num_fav, (SELECT avg(numerical_rating) FROM rates WHERE user = ?) AS avg_rates, (SELECT count(music_album) FROM rates WHERE music_album IS NOT NULL AND user = ?) AS num_rates_ma, (SELECT count(favourites) FROM rates WHERE favourites = 1 AND music_album IS NOT NULL AND user = ?) AS num_fav_ma, (SELECT avg(numerical_rating) FROM rates WHERE music_album IS NOT NULL AND user = ?) AS avg_ma, (SELECT count(song) FROM rates WHERE song IS NOT NULL AND user = ?) AS num_rates_s, (SELECT count(favourites) FROM rates WHERE favourites = 1 AND song IS NOT NULL AND user = ?) AS num_fav_s, (SELECT avg(numerical_rating) FROM rates WHERE song IS NOT NULL AND user = ?) AS avg_s FROM rates WHERE user = ?",
+      [
+        id_user,
+        id_user,
+        id_user,
+        id_user,
+        id_user,
+        id_user,
+        id_user,
+        id_user,
+        id_user,
+      ],
       (error, result) => {
         if (error) {
           return reject(error);

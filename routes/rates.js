@@ -54,6 +54,11 @@ router.get(
 );
 
 router.get(
+  "/:username/getAllRatesByUser",
+  rate_controller.get_all_rates_by_user
+);
+
+router.get(
   "/:username/getStatisticsOfAllRatesByUser",
   rate_controller.get_statistics_of_all_rates_by_user
 );
