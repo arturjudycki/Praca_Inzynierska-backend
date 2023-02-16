@@ -80,7 +80,7 @@ db.getRateAlbumByUser = (music_album, user) => {
 db.getAllRatesAlbumsByUser = (username) => {
   return new Promise((resolve, reject) => {
     pool.query(
-      "SELECT rates.* FROM rates WHERE music_album IS NOT NULL AND user = (SELECT users.id_user FROM users WHERE username = ?)",
+      "SELECT rates.*, music_albums.title, music_albums.cover, music_albums.release_date, music_albums.id_music_album AS id FROM rates, music_albums WHERE music_album IS NOT NULL AND music_albums.id_music_album = rates.music_album AND user = (SELECT users.id_user FROM users WHERE username = ?) GROUP BY id_rate",
       [username],
       (error, result) => {
         if (error) {
@@ -110,7 +110,7 @@ db.getRateSongByUser = (song, user) => {
 db.getAllRatesSongsByUser = (username) => {
   return new Promise((resolve, reject) => {
     pool.query(
-      "SELECT rates.* FROM rates WHERE song IS NOT NULL AND user = (SELECT users.id_user FROM users WHERE username = ?)",
+      "SELECT rates.*, songs.title, songs.id_song AS id, music_albums.cover, music_albums.release_date FROM rates, songs, music_albums WHERE song IS NOT NULL AND songs.id_song = rates.song AND songs.music_album = music_albums.id_music_album AND user = (SELECT users.id_user FROM users WHERE username = ?) GROUP BY id_rate",
       [username],
       (error, result) => {
         if (error) {
@@ -147,21 +147,6 @@ db.getStatisticsOfSong = (song) => {
           return reject(error);
         }
         return resolve(result[0]);
-      }
-    );
-  });
-};
-
-db.getAllRatesByUser = (username) => {
-  return new Promise((resolve, reject) => {
-    pool.query(
-      "SELECT * FROM rates WHERE user = (SELECT id_user FROM users WHERE username = ?)",
-      [username],
-      (error, result) => {
-        if (error) {
-          return reject(error);
-        }
-        return resolve(result);
       }
     );
   });
