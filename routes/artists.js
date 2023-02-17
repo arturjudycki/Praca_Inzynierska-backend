@@ -38,11 +38,6 @@ router.get(
   artist_controller.get_albums_by_artist_id
 );
 
-router.get(
-  "/:id_artist/getArtistById",
-  helpers.isAuthenticated,
-  helpers.isAdmin,
-  artist_controller.get_artist_by_id
-);
+router.get("/:id_artist/getArtistById", artist_controller.get_artist_by_id);
 
 module.exports = router;

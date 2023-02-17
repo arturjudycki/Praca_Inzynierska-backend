@@ -79,6 +79,27 @@ get_all_rates_albums_by_user = async (req, res) => {
   }
 };
 
+get_all_rates_albums_by_user_query = async (req, res) => {
+  try {
+    const username = req.params.username;
+    // const sort = req.query.sort;
+    const sort = req.query.sort.split(",");
+    const sort_value = sort[0];
+    const sort_order = sort[1];
+
+    console.log(sort_value + "," + sort_order);
+
+    const rates = await dbManageRates.getAllRatesAlbumsByUser(username);
+    if (rates === undefined) {
+      return res.sendStatus(404);
+    }
+    return res.json(rates);
+  } catch (e) {
+    console.log(e);
+    return res.sendStatus(500);
+  }
+};
+
 get_rate_song_by_user = async (req, res) => {
   try {
     const song = req.params.song;
@@ -192,6 +213,7 @@ module.exports = {
   get_rate_album_by_user,
   get_rate_song_by_user,
   get_all_rates_albums_by_user,
+  get_all_rates_albums_by_user_query,
   get_all_rates_songs_by_user,
   get_statistics_of_song,
   get_statistics_of_album,

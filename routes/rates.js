@@ -32,6 +32,11 @@ router.get(
 );
 
 router.get(
+  "/:username/getAllRatesAlbumsByUserQuery",
+  rate_controller.get_all_rates_albums_by_user_query
+);
+
+router.get(
   "/:username/getAllRatesAlbumsByUser",
   rate_controller.get_all_rates_albums_by_user
 );
