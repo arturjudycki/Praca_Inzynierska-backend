@@ -54,6 +54,11 @@ router.get(
 );
 
 router.get(
+  "/:username/getAllRatesSongsByUserQuery",
+  rate_controller.get_all_rates_songs_by_user_query
+);
+
+router.get(
   "/:username/getAllRatesSongsByUser",
   rate_controller.get_all_rates_songs_by_user
 );

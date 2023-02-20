@@ -239,6 +239,123 @@ db.getAllRatesSongsByUser = (username) => {
   });
 };
 
+db.getAllRatesSongsByUserQuery = (username, sort_value, sort_order) => {
+  if (sort_value === "rating-date" && sort_order === "DESC") {
+    return new Promise((resolve, reject) => {
+      pool.query(
+        "SELECT rates.*, songs.title, songs.id_song AS id, music_albums.cover, music_albums.release_date FROM rates, songs, music_albums WHERE song IS NOT NULL AND songs.id_song = rates.song AND songs.music_album = music_albums.id_music_album AND user = (SELECT users.id_user FROM users WHERE username = ?) ORDER BY rating_date DESC",
+        [username],
+        (error, result) => {
+          if (error) {
+            return reject(error);
+          }
+          return resolve(result);
+        }
+      );
+    });
+  } else if (sort_value === "rating-date" && sort_order === "ASC") {
+    return new Promise((resolve, reject) => {
+      pool.query(
+        "SELECT rates.*, songs.title, songs.id_song AS id, music_albums.cover, music_albums.release_date FROM rates, songs, music_albums WHERE song IS NOT NULL AND songs.id_song = rates.song AND songs.music_album = music_albums.id_music_album AND user = (SELECT users.id_user FROM users WHERE username = ?) ORDER BY rating_date ASC",
+        [username],
+        (error, result) => {
+          if (error) {
+            return reject(error);
+          }
+          return resolve(result);
+        }
+      );
+    });
+  } else if (sort_value === "numerical-rating" && sort_order === "ASC") {
+    return new Promise((resolve, reject) => {
+      pool.query(
+        "SELECT rates.*, songs.title, songs.id_song AS id, music_albums.cover, music_albums.release_date FROM rates, songs, music_albums WHERE song IS NOT NULL AND songs.id_song = rates.song AND songs.music_album = music_albums.id_music_album AND user = (SELECT users.id_user FROM users WHERE username = ?) ORDER BY numerical_rating ASC",
+        [username],
+        (error, result) => {
+          if (error) {
+            return reject(error);
+          }
+          return resolve(result);
+        }
+      );
+    });
+  } else if (sort_value === "numerical-rating" && sort_order === "DESC") {
+    return new Promise((resolve, reject) => {
+      pool.query(
+        "SELECT rates.*, songs.title, songs.id_song AS id, music_albums.cover, music_albums.release_date FROM rates, songs, music_albums WHERE song IS NOT NULL AND songs.id_song = rates.song AND songs.music_album = music_albums.id_music_album AND user = (SELECT users.id_user FROM users WHERE username = ?) ORDER BY numerical_rating DESC",
+        [username],
+        (error, result) => {
+          if (error) {
+            return reject(error);
+          }
+          return resolve(result);
+        }
+      );
+    });
+  }
+};
+
+db.getAllRatesSongsByUserQueryFilter = (
+  username,
+  favourite,
+  sort_value,
+  sort_order
+) => {
+  if (sort_value === "rating-date" && sort_order === "DESC") {
+    return new Promise((resolve, reject) => {
+      pool.query(
+        "SELECT rates.*, songs.title, songs.id_song AS id, music_albums.cover, music_albums.release_date FROM rates, songs, music_albums WHERE song IS NOT NULL AND songs.id_song = rates.song AND songs.music_album = music_albums.id_music_album AND user = (SELECT users.id_user FROM users WHERE username = ?) AND favourites = ? ORDER BY rating_date DESC",
+        [username, favourite],
+        (error, result) => {
+          if (error) {
+            return reject(error);
+          }
+          return resolve(result);
+        }
+      );
+    });
+  } else if (sort_value === "rating-date" && sort_order === "ASC") {
+    return new Promise((resolve, reject) => {
+      pool.query(
+        "SELECT rates.*, songs.title, songs.id_song AS id, music_albums.cover, music_albums.release_date FROM rates, songs, music_albums WHERE song IS NOT NULL AND songs.id_song = rates.song AND songs.music_album = music_albums.id_music_album AND user = (SELECT users.id_user FROM users WHERE username = ?) AND favourites = ? ORDER BY rating_date ASC",
+        [username, favourite],
+        (error, result) => {
+          if (error) {
+            return reject(error);
+          }
+          return resolve(result);
+        }
+      );
+    });
+  } else if (sort_value === "numerical-rating" && sort_order === "ASC") {
+    return new Promise((resolve, reject) => {
+      pool.query(
+        "SELECT rates.*, songs.title, songs.id_song AS id, music_albums.cover, music_albums.release_date FROM rates, songs, music_albums WHERE song IS NOT NULL AND songs.id_song = rates.song AND songs.music_album = music_albums.id_music_album AND user = (SELECT users.id_user FROM users WHERE username = ?) AND favourites = ? ORDER BY numerical_rating ASC",
+        [username, favourite],
+        (error, result) => {
+          if (error) {
+            return reject(error);
+          }
+          return resolve(result);
+        }
+      );
+    });
+  } else if (sort_value === "numerical-rating" && sort_order === "DESC") {
+    return new Promise((resolve, reject) => {
+      pool.query(
+        "SELECT rates.*, songs.title, songs.id_song AS id, music_albums.cover, music_albums.release_date FROM rates, songs, music_albums WHERE song IS NOT NULL AND songs.id_song = rates.song AND songs.music_album = music_albums.id_music_album AND user = (SELECT users.id_user FROM users WHERE username = ?) AND favourites = ? ORDER BY numerical_rating DESC",
+        [username, favourite],
+        (error, result) => {
+          if (error) {
+            return reject(error);
+          }
+          return resolve(result);
+        }
+      );
+    });
+  }
+};
+
 db.getStatisticsOfAlbum = (music_album) => {
   return new Promise((resolve, reject) => {
     pool.query(
