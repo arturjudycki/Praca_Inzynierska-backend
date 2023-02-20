@@ -82,14 +82,34 @@ get_all_rates_albums_by_user = async (req, res) => {
 get_all_rates_albums_by_user_query = async (req, res) => {
   try {
     const username = req.params.username;
-    // const sort = req.query.sort;
-    const sort = req.query.sort.split(",");
-    const sort_value = sort[0];
-    const sort_order = sort[1];
+    let sortBy = req.query.sortBy;
+    let sort_value;
+    let sort_order;
+    let rates;
+    if (sortBy === undefined) {
+      sort_value = "rating-date";
+      sort_order = "DESC";
+    } else {
+      sortBy = req.query.sortBy.split("_");
+      sort_value = sortBy[0];
+      sort_order = sortBy[1];
+    }
 
-    console.log(sort_value + "," + sort_order);
-
-    const rates = await dbManageRates.getAllRatesAlbumsByUser(username);
+    const favourite = req.query.favourite;
+    if (favourite === undefined) {
+      rates = await dbManageRates.getAllRatesAlbumsByUserQuery(
+        username,
+        sort_value,
+        sort_order
+      );
+    } else {
+      rates = await dbManageRates.getAllRatesAlbumsByUserQueryFilter(
+        username,
+        favourite,
+        sort_value,
+        sort_order
+      );
+    }
     if (rates === undefined) {
       return res.sendStatus(404);
     }
