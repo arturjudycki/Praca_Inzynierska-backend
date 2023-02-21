@@ -81,6 +81,8 @@ router.patch(
 
 router.get("/getAllAlbums", album_controller.get_all_albums);
 
+router.get("/getLastAlbums", album_controller.get_last_albums);
+
 router.post(
   "/assignArtistToAlbum",
   helpers.isAuthenticated,

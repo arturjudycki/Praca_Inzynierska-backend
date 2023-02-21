@@ -167,6 +167,16 @@ get_all_albums = async (req, res) => {
   }
 };
 
+get_last_albums = async (req, res) => {
+  try {
+    const albums = await dbManageAlbums.getLastAlbums();
+    return res.json(albums);
+  } catch (e) {
+    console.log(e);
+    return res.sendStatus(500);
+  }
+};
+
 assign_artist_to_album = async (req, res) => {
   try {
     const { id_music_album, id_artist } = req.body;
@@ -212,6 +222,7 @@ module.exports = {
   edit_cover_album,
   get_album_by_id,
   get_all_albums,
+  get_last_albums,
   assign_artist_to_album,
   get_artists_by_album_id,
   // get_assign_artists,

@@ -129,6 +129,20 @@ db.getAllAlbums = () => {
   });
 };
 
+db.getLastAlbums = () => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      "SELECT * FROM music_albums ORDER BY id_music_album DESC",
+      (error, result) => {
+        if (error) {
+          return reject(error);
+        }
+        return resolve(result);
+      }
+    );
+  });
+};
+
 db.assignArtistToAlbum = (id_music_album, id_artist) => {
   return new Promise((resolve, reject) => {
     pool.query(
