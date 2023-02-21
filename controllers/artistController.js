@@ -73,6 +73,16 @@ get_all_artists_order_by = async (req, res) => {
   }
 };
 
+get_count_of_artists = async (req, res) => {
+  try {
+    const artists = await dbManageArtists.getCountOfArtists();
+    return res.json(artists[0]);
+  } catch (e) {
+    console.log(e);
+    return res.sendStatus(500);
+  }
+};
+
 edit_artist = async (req, res) => {
   const errors = validationResult(req);
 
@@ -103,5 +113,6 @@ module.exports = {
   get_all_artists,
   get_all_artists_order_by,
   get_albums_by_artist_id,
+  get_count_of_artists,
   edit_artist,
 };

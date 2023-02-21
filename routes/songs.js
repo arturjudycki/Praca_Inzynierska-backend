@@ -22,6 +22,8 @@ router.post(
 
 router.get("/getAllSongs", song_controller.get_all_songs);
 
+router.get("/getCountOfSongs", song_controller.get_count_of_songs);
+
 router.get("/:id_song/getSong", song_controller.get_song);
 
 router.get(

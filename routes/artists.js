@@ -23,6 +23,8 @@ router.get("/getAllArtists", artist_controller.get_all_artists);
 
 router.get("/getAllArtistsOrderBy", artist_controller.get_all_artists_order_by);
 
+router.get("/getCountOfArtists", artist_controller.get_count_of_artists);
+
 router.put(
   "/editArtist",
   [

@@ -63,6 +63,20 @@ db.getAllArtistsOrderBy = () => {
   });
 };
 
+db.getCountOfArtists = () => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      "SELECT count(id_artist) as amount FROM artists",
+      (error, result) => {
+        if (error) {
+          return reject(error);
+        }
+        return resolve(result);
+      }
+    );
+  });
+};
+
 db.editArtist = (id_artist, name, description, members) => {
   return new Promise((resolve, reject) => {
     pool.query(

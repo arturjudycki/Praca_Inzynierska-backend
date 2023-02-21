@@ -71,6 +71,21 @@ db.getAllSongs = () => {
   });
 };
 
+db.getCountOfSongs = () => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      "SELECT count(id_song) as amount FROM songs",
+      [],
+      (error, result) => {
+        if (error) {
+          return reject(error);
+        }
+        return resolve(result);
+      }
+    );
+  });
+};
+
 db.editSong = (
   id_song,
   track_number,

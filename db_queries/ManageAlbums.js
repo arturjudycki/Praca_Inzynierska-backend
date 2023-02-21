@@ -143,6 +143,20 @@ db.getLastAlbums = () => {
   });
 };
 
+db.getCountOfAlbums = () => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      "SELECT count(id_music_album) as amount FROM music_albums",
+      (error, result) => {
+        if (error) {
+          return reject(error);
+        }
+        return resolve(result);
+      }
+    );
+  });
+};
+
 db.assignArtistToAlbum = (id_music_album, id_artist) => {
   return new Promise((resolve, reject) => {
     pool.query(
