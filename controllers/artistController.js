@@ -63,6 +63,16 @@ get_all_artists = async (req, res) => {
   }
 };
 
+get_all_artists_order_by = async (req, res) => {
+  try {
+    const artists = await dbManageArtists.getAllArtistsOrderBy();
+    return res.json(artists);
+  } catch (e) {
+    console.log(e);
+    return res.sendStatus(500);
+  }
+};
+
 edit_artist = async (req, res) => {
   const errors = validationResult(req);
 
@@ -91,6 +101,7 @@ module.exports = {
   add_artist,
   get_artist_by_id,
   get_all_artists,
+  get_all_artists_order_by,
   get_albums_by_artist_id,
   edit_artist,
 };

@@ -21,6 +21,8 @@ router.post(
 
 router.get("/getAllArtists", artist_controller.get_all_artists);
 
+router.get("/getAllArtistsOrderBy", artist_controller.get_all_artists_order_by);
+
 router.put(
   "/editArtist",
   [

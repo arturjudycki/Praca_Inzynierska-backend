@@ -52,6 +52,17 @@ db.getAllArtists = () => {
   });
 };
 
+db.getAllArtistsOrderBy = () => {
+  return new Promise((resolve, reject) => {
+    pool.query("SELECT * FROM artists ORDER BY name", (error, result) => {
+      if (error) {
+        return reject(error);
+      }
+      return resolve(result);
+    });
+  });
+};
+
 db.editArtist = (id_artist, name, description, members) => {
   return new Promise((resolve, reject) => {
     pool.query(
