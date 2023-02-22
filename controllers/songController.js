@@ -91,6 +91,19 @@ get_count_of_songs = async (req, res) => {
   }
 };
 
+get_top_100_list_of_songs = async (req, res) => {
+  try {
+    const songs = await dbManageSongs.getTop100ListOfSongs();
+    if (songs === undefined) {
+      return res.sendStatus(404);
+    }
+    return res.json(songs);
+  } catch (e) {
+    console.log(e);
+    return res.sendStatus(500);
+  }
+};
+
 edit_song = async (req, res) => {
   try {
     const {
@@ -134,6 +147,7 @@ module.exports = {
   get_songs_of_album,
   get_song,
   get_all_songs,
+  get_top_100_list_of_songs,
   get_count_of_songs,
   edit_song,
   delete_song,

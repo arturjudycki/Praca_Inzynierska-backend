@@ -86,6 +86,21 @@ db.getCountOfSongs = () => {
   });
 };
 
+db.getTop100ListOfSongs = () => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      "SELECT COUNT(rates.numerical_rating) AS counts, AVG(rates.numerical_rating) AS mean, music_albums.id_music_album, music_albums.cover, music_albums.title AS ma_title, music_albums.release_date, songs.* FROM rates, music_albums, songs WHERE rates.song = songs.id_song AND songs.music_album = music_albums.id_music_album AND rates.song IS NOT NULL GROUP BY rates.song ORDER BY mean DESC LIMIT 100",
+      [],
+      (error, result) => {
+        if (error) {
+          return reject(error);
+        }
+        return resolve(result);
+      }
+    );
+  });
+};
+
 db.editSong = (
   id_song,
   track_number,
