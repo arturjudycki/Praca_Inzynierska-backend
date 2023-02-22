@@ -157,6 +157,21 @@ db.getCountOfAlbums = () => {
   });
 };
 
+db.getTop100ListOfAlbums = () => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      "SELECT COUNT(rates.numerical_rating) AS counts, AVG(rates.numerical_rating) AS mean, music_albums.* FROM rates, music_albums WHERE rates.music_album = music_albums.id_music_album AND rates.music_album IS NOT NULL GROUP BY rates.music_album ORDER BY mean DESC LIMIT 100",
+      [],
+      (error, result) => {
+        if (error) {
+          return reject(error);
+        }
+        return resolve(result);
+      }
+    );
+  });
+};
+
 db.assignArtistToAlbum = (id_music_album, id_artist) => {
   return new Promise((resolve, reject) => {
     pool.query(

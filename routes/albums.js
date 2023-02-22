@@ -85,6 +85,11 @@ router.get("/getLastAlbums", album_controller.get_last_albums);
 
 router.get("/getCountOfAlbums", album_controller.get_count_of_albums);
 
+router.get(
+  "/getTop100ListOfAlbums",
+  album_controller.get_top_100_list_of_albums
+);
+
 router.post(
   "/assignArtistToAlbum",
   helpers.isAuthenticated,

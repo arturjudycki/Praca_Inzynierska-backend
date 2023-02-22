@@ -187,6 +187,19 @@ get_count_of_albums = async (req, res) => {
   }
 };
 
+get_top_100_list_of_albums = async (req, res) => {
+  try {
+    const albums = await dbManageSongs.getTop100ListOfAlbums();
+    if (songs === undefined) {
+      return res.sendStatus(404);
+    }
+    return res.json(albums);
+  } catch (e) {
+    console.log(e);
+    return res.sendStatus(500);
+  }
+};
+
 assign_artist_to_album = async (req, res) => {
   try {
     const { id_music_album, id_artist } = req.body;
@@ -234,6 +247,7 @@ module.exports = {
   get_all_albums,
   get_last_albums,
   get_count_of_albums,
+  get_top_100_list_of_albums,
   assign_artist_to_album,
   get_artists_by_album_id,
   // get_assign_artists,
