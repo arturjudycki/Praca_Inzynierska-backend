@@ -172,6 +172,55 @@ db.getTop100ListOfAlbums = () => {
   });
 };
 
+db.getTop100ListOfAlbumsFilterType = (typeOfAlbum) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      "SELECT COUNT(rates.numerical_rating) AS counts, AVG(rates.numerical_rating) AS mean, music_albums.* FROM rates, music_albums WHERE rates.music_album = music_albums.id_music_album AND rates.music_album IS NOT NULL AND music_albums.type_of_album = ? GROUP BY rates.music_album ORDER BY mean DESC LIMIT 100",
+      [typeOfAlbum],
+      (error, result) => {
+        if (error) {
+          return reject(error);
+        }
+        return resolve(result);
+      }
+    );
+  });
+};
+
+db.getTop100ListOfAlbumsFilterRelease = (beginDate, endDate) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      "SELECT COUNT(rates.numerical_rating) AS counts, AVG(rates.numerical_rating) AS mean, music_albums.* FROM rates, music_albums WHERE rates.music_album = music_albums.id_music_album AND rates.music_album IS NOT NULL AND music_albums.release_date BETWEEN ? AND ? GROUP BY rates.music_album ORDER BY mean DESC LIMIT 100",
+      [beginDate, endDate],
+      (error, result) => {
+        if (error) {
+          return reject(error);
+        }
+        return resolve(result);
+      }
+    );
+  });
+};
+
+db.getTop100ListOfAlbumsFilterTypeRelease = (
+  typeOfAlbum,
+  beginDate,
+  endDate
+) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      "SELECT COUNT(rates.numerical_rating) AS counts, AVG(rates.numerical_rating) AS mean, music_albums.* FROM rates, music_albums WHERE rates.music_album = music_albums.id_music_album AND rates.music_album IS NOT NULL AND music_albums.type_of_album = ? AND music_albums.release_date BETWEEN ? AND ? GROUP BY rates.music_album ORDER BY mean DESC LIMIT 100",
+      [typeOfAlbum, beginDate, endDate],
+      (error, result) => {
+        if (error) {
+          return reject(error);
+        }
+        return resolve(result);
+      }
+    );
+  });
+};
+
 db.assignArtistToAlbum = (id_music_album, id_artist) => {
   return new Promise((resolve, reject) => {
     pool.query(

@@ -189,7 +189,69 @@ get_count_of_albums = async (req, res) => {
 
 get_top_100_list_of_albums = async (req, res) => {
   try {
-    const albums = await dbManageAlbums.getTop100ListOfAlbums();
+
+    let albums;
+    let typeOfAlbum = req.query.typeOfAlbum;
+    let releaseDate = req.query.releaseDate;
+    let beginDate;
+    let endDate;
+
+    if (releaseDate !== undefined) {
+      switch (releaseDate) {
+        case "1950":
+          beginDate = "1950-01-01";
+          endDate = "1959-12-31";
+          break;
+        case "1960":
+          beginDate = "1960-01-01";
+          endDate = "1969-12-31";
+          break;
+        case "1970":
+          beginDate = "1970-01-01";
+          endDate = "1979-12-31";
+          break;
+        case "1980":
+          beginDate = "1980-01-01";
+          endDate = "1989-12-31";
+          break;
+        case "1990":
+          beginDate = "1990-01-01";
+          endDate = "1999-12-31";
+          break;
+        case "2000":
+          beginDate = "2000-01-01";
+          endDate = "2009-12-31";
+          break;
+        case "2010":
+          beginDate = "2010-01-01";
+          endDate = "2019-12-31";
+          break;
+        case "2020":
+          beginDate = "2020-01-01";
+          endDate = "2029-12-31";
+          break;
+      }
+    }
+
+    if (typeOfAlbum === undefined && releaseDate === undefined) {
+      albums = await dbManageAlbums.getTop100ListOfAlbums();
+    } else if (typeOfAlbum !== undefined && releaseDate === undefined) {
+      albums = await dbManageAlbums.getTop100ListOfAlbumsFilterType(
+        typeOfAlbum
+      );
+    } else if (typeOfAlbum === undefined && releaseDate !== undefined) {
+      albums = await dbManageAlbums.getTop100ListOfAlbumsFilterRelease(
+        beginDate,
+        endDate
+      );
+    } else if (typeOfAlbum !== undefined && releaseDate !== undefined) {
+      albums = await dbManageAlbums.getTop100ListOfAlbumsFilterTypeRelease(
+        typeOfAlbum,
+        beginDate,
+        endDate
+      );
+    }
+
     if (albums === undefined) {
       return res.sendStatus(404);
     }
