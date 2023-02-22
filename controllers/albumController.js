@@ -189,8 +189,8 @@ get_count_of_albums = async (req, res) => {
 
 get_top_100_list_of_albums = async (req, res) => {
   try {
-    const albums = await dbManageSongs.getTop100ListOfAlbums();
-    if (songs === undefined) {
+    const albums = await dbManageAlbums.getTop100ListOfAlbums();
+    if (albums === undefined) {
       return res.sendStatus(404);
     }
     return res.json(albums);
