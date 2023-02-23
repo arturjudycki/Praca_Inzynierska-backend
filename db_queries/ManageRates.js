@@ -92,12 +92,33 @@ db.getAllRatesAlbumsByUser = (username) => {
   });
 };
 
-db.getAllRatesAlbumsByUserQuery = (username, sort_value, sort_order) => {
+db.getLengthOfRatesAlbumsByUserQuery = (username) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      "SELECT count(id_rate) AS counts FROM rates WHERE music_album IS NOT NULL AND user = (SELECT users.id_user FROM users WHERE username = ?)",
+      [username],
+      (error, result) => {
+        if (error) {
+          return reject(error);
+        }
+        return resolve(result);
+      }
+    );
+  });
+};
+
+db.getAllRatesAlbumsByUserQuery = (
+  username,
+  sort_value,
+  sort_order,
+  limit,
+  offset
+) => {
   if (sort_value === "rating-date" && sort_order === "DESC") {
     return new Promise((resolve, reject) => {
       pool.query(
-        "SELECT rates.*, music_albums.title, music_albums.cover, music_albums.type_of_album, music_albums.release_date, music_albums.id_music_album AS id FROM rates, music_albums WHERE music_album IS NOT NULL AND music_albums.id_music_album = rates.music_album AND user = (SELECT users.id_user FROM users WHERE username = ?) ORDER BY rating_date DESC",
-        [username],
+        "SELECT rates.*, music_albums.title, music_albums.cover, music_albums.type_of_album, music_albums.release_date, music_albums.id_music_album AS id FROM rates, music_albums WHERE music_album IS NOT NULL AND music_albums.id_music_album = rates.music_album AND user = (SELECT users.id_user FROM users WHERE username = ?) ORDER BY rating_date DESC LIMIT ? OFFSET ?",
+        [username, limit, offset],
         (error, result) => {
           if (error) {
             return reject(error);
@@ -109,8 +130,8 @@ db.getAllRatesAlbumsByUserQuery = (username, sort_value, sort_order) => {
   } else if (sort_value === "rating-date" && sort_order === "ASC") {
     return new Promise((resolve, reject) => {
       pool.query(
-        "SELECT rates.*, music_albums.title, music_albums.cover, music_albums.type_of_album, music_albums.release_date, music_albums.id_music_album AS id FROM rates, music_albums WHERE music_album IS NOT NULL AND music_albums.id_music_album = rates.music_album AND user = (SELECT users.id_user FROM users WHERE username = ?) ORDER BY rating_date ASC",
-        [username],
+        "SELECT rates.*, music_albums.title, music_albums.cover, music_albums.type_of_album, music_albums.release_date, music_albums.id_music_album AS id FROM rates, music_albums WHERE music_album IS NOT NULL AND music_albums.id_music_album = rates.music_album AND user = (SELECT users.id_user FROM users WHERE username = ?) ORDER BY rating_date ASC LIMIT ? OFFSET ?",
+        [username, limit, offset],
         (error, result) => {
           if (error) {
             return reject(error);
@@ -122,8 +143,8 @@ db.getAllRatesAlbumsByUserQuery = (username, sort_value, sort_order) => {
   } else if (sort_value === "numerical-rating" && sort_order === "ASC") {
     return new Promise((resolve, reject) => {
       pool.query(
-        "SELECT rates.*, music_albums.title, music_albums.cover, music_albums.type_of_album, music_albums.release_date, music_albums.id_music_album AS id FROM rates, music_albums WHERE music_album IS NOT NULL AND music_albums.id_music_album = rates.music_album AND user = (SELECT users.id_user FROM users WHERE username = ?) ORDER BY numerical_rating ASC",
-        [username],
+        "SELECT rates.*, music_albums.title, music_albums.cover, music_albums.type_of_album, music_albums.release_date, music_albums.id_music_album AS id FROM rates, music_albums WHERE music_album IS NOT NULL AND music_albums.id_music_album = rates.music_album AND user = (SELECT users.id_user FROM users WHERE username = ?) ORDER BY numerical_rating ASC LIMIT ? OFFSET ?",
+        [username, limit, offset],
         (error, result) => {
           if (error) {
             return reject(error);
@@ -135,8 +156,8 @@ db.getAllRatesAlbumsByUserQuery = (username, sort_value, sort_order) => {
   } else if (sort_value === "numerical-rating" && sort_order === "DESC") {
     return new Promise((resolve, reject) => {
       pool.query(
-        "SELECT rates.*, music_albums.title, music_albums.cover, music_albums.type_of_album, music_albums.release_date, music_albums.id_music_album AS id FROM rates, music_albums WHERE music_album IS NOT NULL AND music_albums.id_music_album = rates.music_album AND user = (SELECT users.id_user FROM users WHERE username = ?) ORDER BY numerical_rating DESC",
-        [username],
+        "SELECT rates.*, music_albums.title, music_albums.cover, music_albums.type_of_album, music_albums.release_date, music_albums.id_music_album AS id FROM rates, music_albums WHERE music_album IS NOT NULL AND music_albums.id_music_album = rates.music_album AND user = (SELECT users.id_user FROM users WHERE username = ?) ORDER BY numerical_rating DESC LIMIT ? OFFSET ?",
+        [username, limit, offset],
         (error, result) => {
           if (error) {
             return reject(error);
@@ -148,17 +169,34 @@ db.getAllRatesAlbumsByUserQuery = (username, sort_value, sort_order) => {
   }
 };
 
+db.getLengthOfRatesAlbumsByUserQueryFilter = (username) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      "SELECT count(id_rate) AS counts FROM rates WHERE music_album IS NOT NULL AND favourites = 1 AND user = (SELECT users.id_user FROM users WHERE username = ?)",
+      [username],
+      (error, result) => {
+        if (error) {
+          return reject(error);
+        }
+        return resolve(result);
+      }
+    );
+  });
+};
+
 db.getAllRatesAlbumsByUserQueryFilter = (
   username,
   favourite,
   sort_value,
-  sort_order
+  sort_order,
+  limit,
+  offset
 ) => {
   if (sort_value === "rating-date" && sort_order === "DESC") {
     return new Promise((resolve, reject) => {
       pool.query(
-        "SELECT rates.*, music_albums.title, music_albums.cover, music_albums.type_of_album, music_albums.release_date, music_albums.id_music_album AS id FROM rates, music_albums WHERE music_album IS NOT NULL AND music_albums.id_music_album = rates.music_album AND user = (SELECT users.id_user FROM users WHERE username = ?) AND favourites = ? ORDER BY rating_date DESC",
-        [username, favourite],
+        "SELECT rates.*, music_albums.title, music_albums.cover, music_albums.type_of_album, music_albums.release_date, music_albums.id_music_album AS id FROM rates, music_albums WHERE music_album IS NOT NULL AND music_albums.id_music_album = rates.music_album AND user = (SELECT users.id_user FROM users WHERE username = ?) AND favourites = ? ORDER BY rating_date DESC LIMIT ? OFFSET ?",
+        [username, favourite, limit, offset],
         (error, result) => {
           if (error) {
             return reject(error);
@@ -170,8 +208,8 @@ db.getAllRatesAlbumsByUserQueryFilter = (
   } else if (sort_value === "rating-date" && sort_order === "ASC") {
     return new Promise((resolve, reject) => {
       pool.query(
-        "SELECT rates.*, music_albums.title, music_albums.cover, music_albums.type_of_album, music_albums.release_date, music_albums.id_music_album AS id FROM rates, music_albums WHERE music_album IS NOT NULL AND music_albums.id_music_album = rates.music_album AND user = (SELECT users.id_user FROM users WHERE username = ?) AND favourites = ? ORDER BY rating_date ASC",
-        [username, favourite],
+        "SELECT rates.*, music_albums.title, music_albums.cover, music_albums.type_of_album, music_albums.release_date, music_albums.id_music_album AS id FROM rates, music_albums WHERE music_album IS NOT NULL AND music_albums.id_music_album = rates.music_album AND user = (SELECT users.id_user FROM users WHERE username = ?) AND favourites = ? ORDER BY rating_date ASC LIMIT ? OFFSET ?",
+        [username, favourite, limit, offset],
         (error, result) => {
           if (error) {
             return reject(error);
@@ -183,8 +221,8 @@ db.getAllRatesAlbumsByUserQueryFilter = (
   } else if (sort_value === "numerical-rating" && sort_order === "ASC") {
     return new Promise((resolve, reject) => {
       pool.query(
-        "SELECT rates.*, music_albums.title, music_albums.cover, music_albums.type_of_album, music_albums.release_date, music_albums.id_music_album AS id FROM rates, music_albums WHERE music_album IS NOT NULL AND music_albums.id_music_album = rates.music_album AND user = (SELECT users.id_user FROM users WHERE username = ?) AND favourites = ? ORDER BY numerical_rating ASC",
-        [username, favourite],
+        "SELECT rates.*, music_albums.title, music_albums.cover, music_albums.type_of_album, music_albums.release_date, music_albums.id_music_album AS id FROM rates, music_albums WHERE music_album IS NOT NULL AND music_albums.id_music_album = rates.music_album AND user = (SELECT users.id_user FROM users WHERE username = ?) AND favourites = ? ORDER BY numerical_rating ASC LIMIT ? OFFSET ?",
+        [username, favourite, limit, offset],
         (error, result) => {
           if (error) {
             return reject(error);
@@ -196,8 +234,8 @@ db.getAllRatesAlbumsByUserQueryFilter = (
   } else if (sort_value === "numerical-rating" && sort_order === "DESC") {
     return new Promise((resolve, reject) => {
       pool.query(
-        "SELECT rates.*, music_albums.title, music_albums.cover, music_albums.type_of_album, music_albums.release_date, music_albums.id_music_album AS id FROM rates, music_albums WHERE music_album IS NOT NULL AND music_albums.id_music_album = rates.music_album AND user = (SELECT users.id_user FROM users WHERE username = ?) AND favourites = ? ORDER BY numerical_rating DESC",
-        [username, favourite],
+        "SELECT rates.*, music_albums.title, music_albums.cover, music_albums.type_of_album, music_albums.release_date, music_albums.id_music_album AS id FROM rates, music_albums WHERE music_album IS NOT NULL AND music_albums.id_music_album = rates.music_album AND user = (SELECT users.id_user FROM users WHERE username = ?) AND favourites = ? ORDER BY numerical_rating DESC LIMIT ? OFFSET ?",
+        [username, favourite, limit, offset],
         (error, result) => {
           if (error) {
             return reject(error);
@@ -239,12 +277,33 @@ db.getAllRatesSongsByUser = (username) => {
   });
 };
 
-db.getAllRatesSongsByUserQuery = (username, sort_value, sort_order) => {
+db.getLengthOfRatesSongsByUserQuery = (username) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      "SELECT count(id_rate) AS counts FROM rates WHERE song IS NOT NULL AND user = (SELECT users.id_user FROM users WHERE username = ?)",
+      [username],
+      (error, result) => {
+        if (error) {
+          return reject(error);
+        }
+        return resolve(result);
+      }
+    );
+  });
+};
+
+db.getAllRatesSongsByUserQuery = (
+  username,
+  sort_value,
+  sort_order,
+  limit,
+  offset
+) => {
   if (sort_value === "rating-date" && sort_order === "DESC") {
     return new Promise((resolve, reject) => {
       pool.query(
-        "SELECT rates.*, songs.title, songs.id_song AS id, music_albums.id_music_album AS id_ma, music_albums.cover, music_albums.title AS ma_title, music_albums.release_date FROM rates, songs, music_albums WHERE song IS NOT NULL AND songs.id_song = rates.song AND songs.music_album = music_albums.id_music_album AND user = (SELECT users.id_user FROM users WHERE username = ?) ORDER BY rating_date DESC",
-        [username],
+        "SELECT rates.*, songs.title, songs.id_song AS id, music_albums.id_music_album AS id_ma, music_albums.cover, music_albums.title AS ma_title, music_albums.release_date FROM rates, songs, music_albums WHERE song IS NOT NULL AND songs.id_song = rates.song AND songs.music_album = music_albums.id_music_album AND user = (SELECT users.id_user FROM users WHERE username = ?) ORDER BY rating_date DESC LIMIT ? OFFSET ?",
+        [username, limit, offset],
         (error, result) => {
           if (error) {
             return reject(error);
@@ -256,8 +315,8 @@ db.getAllRatesSongsByUserQuery = (username, sort_value, sort_order) => {
   } else if (sort_value === "rating-date" && sort_order === "ASC") {
     return new Promise((resolve, reject) => {
       pool.query(
-        "SELECT rates.*, songs.title, songs.id_song AS id, music_albums.id_music_album AS id_ma, music_albums.cover, music_albums.title AS ma_title, music_albums.release_date FROM rates, songs, music_albums WHERE song IS NOT NULL AND songs.id_song = rates.song AND songs.music_album = music_albums.id_music_album AND user = (SELECT users.id_user FROM users WHERE username = ?) ORDER BY rating_date ASC",
-        [username],
+        "SELECT rates.*, songs.title, songs.id_song AS id, music_albums.id_music_album AS id_ma, music_albums.cover, music_albums.title AS ma_title, music_albums.release_date FROM rates, songs, music_albums WHERE song IS NOT NULL AND songs.id_song = rates.song AND songs.music_album = music_albums.id_music_album AND user = (SELECT users.id_user FROM users WHERE username = ?) ORDER BY rating_date ASC LIMIT ? OFFSET ?",
+        [username, limit, offset],
         (error, result) => {
           if (error) {
             return reject(error);
@@ -269,8 +328,8 @@ db.getAllRatesSongsByUserQuery = (username, sort_value, sort_order) => {
   } else if (sort_value === "numerical-rating" && sort_order === "ASC") {
     return new Promise((resolve, reject) => {
       pool.query(
-        "SELECT rates.*, songs.title, songs.id_song AS id, music_albums.id_music_album AS id_ma, music_albums.cover, music_albums.title AS ma_title, music_albums.release_date FROM rates, songs, music_albums WHERE song IS NOT NULL AND songs.id_song = rates.song AND songs.music_album = music_albums.id_music_album AND user = (SELECT users.id_user FROM users WHERE username = ?) ORDER BY numerical_rating ASC",
-        [username],
+        "SELECT rates.*, songs.title, songs.id_song AS id, music_albums.id_music_album AS id_ma, music_albums.cover, music_albums.title AS ma_title, music_albums.release_date FROM rates, songs, music_albums WHERE song IS NOT NULL AND songs.id_song = rates.song AND songs.music_album = music_albums.id_music_album AND user = (SELECT users.id_user FROM users WHERE username = ?) ORDER BY numerical_rating ASC LIMIT ? OFFSET ?",
+        [username, limit, offset],
         (error, result) => {
           if (error) {
             return reject(error);
@@ -282,8 +341,8 @@ db.getAllRatesSongsByUserQuery = (username, sort_value, sort_order) => {
   } else if (sort_value === "numerical-rating" && sort_order === "DESC") {
     return new Promise((resolve, reject) => {
       pool.query(
-        "SELECT rates.*, songs.title, songs.id_song AS id, music_albums.id_music_album AS id_ma, music_albums.cover, music_albums.title AS ma_title, music_albums.release_date FROM rates, songs, music_albums WHERE song IS NOT NULL AND songs.id_song = rates.song AND songs.music_album = music_albums.id_music_album AND user = (SELECT users.id_user FROM users WHERE username = ?) ORDER BY numerical_rating DESC",
-        [username],
+        "SELECT rates.*, songs.title, songs.id_song AS id, music_albums.id_music_album AS id_ma, music_albums.cover, music_albums.title AS ma_title, music_albums.release_date FROM rates, songs, music_albums WHERE song IS NOT NULL AND songs.id_song = rates.song AND songs.music_album = music_albums.id_music_album AND user = (SELECT users.id_user FROM users WHERE username = ?) ORDER BY numerical_rating DESC LIMIT ? OFFSET ?",
+        [username, limit, offset],
         (error, result) => {
           if (error) {
             return reject(error);
@@ -295,17 +354,34 @@ db.getAllRatesSongsByUserQuery = (username, sort_value, sort_order) => {
   }
 };
 
+db.getLengthOfRatesSongsByUserQueryFilter = (username) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      "SELECT count(id_rate) AS counts FROM rates WHERE song IS NOT NULL AND favourites = 1 AND user = (SELECT users.id_user FROM users WHERE username = ?)",
+      [username],
+      (error, result) => {
+        if (error) {
+          return reject(error);
+        }
+        return resolve(result);
+      }
+    );
+  });
+};
+
 db.getAllRatesSongsByUserQueryFilter = (
   username,
   favourite,
   sort_value,
-  sort_order
+  sort_order,
+  limit,
+  offset
 ) => {
   if (sort_value === "rating-date" && sort_order === "DESC") {
     return new Promise((resolve, reject) => {
       pool.query(
-        "SELECT rates.*, songs.title, songs.id_song AS id, music_albums.id_music_album AS id_ma, music_albums.cover, music_albums.title AS ma_title, music_albums.release_date FROM rates, songs, music_albums WHERE song IS NOT NULL AND songs.id_song = rates.song AND songs.music_album = music_albums.id_music_album AND user = (SELECT users.id_user FROM users WHERE username = ?) AND favourites = ? ORDER BY rating_date DESC",
-        [username, favourite],
+        "SELECT rates.*, songs.title, songs.id_song AS id, music_albums.id_music_album AS id_ma, music_albums.cover, music_albums.title AS ma_title, music_albums.release_date FROM rates, songs, music_albums WHERE song IS NOT NULL AND songs.id_song = rates.song AND songs.music_album = music_albums.id_music_album AND user = (SELECT users.id_user FROM users WHERE username = ?) AND favourites = ? ORDER BY rating_date DESC LIMIT ? OFFSET ?",
+        [username, favourite, limit, offset],
         (error, result) => {
           if (error) {
             return reject(error);
@@ -317,8 +393,8 @@ db.getAllRatesSongsByUserQueryFilter = (
   } else if (sort_value === "rating-date" && sort_order === "ASC") {
     return new Promise((resolve, reject) => {
       pool.query(
-        "SELECT rates.*, songs.title, songs.id_song AS id, music_albums.id_music_album AS id_ma, music_albums.cover, music_albums.title AS ma_title, music_albums.release_date FROM rates, songs, music_albums WHERE song IS NOT NULL AND songs.id_song = rates.song AND songs.music_album = music_albums.id_music_album AND user = (SELECT users.id_user FROM users WHERE username = ?) AND favourites = ? ORDER BY rating_date ASC",
-        [username, favourite],
+        "SELECT rates.*, songs.title, songs.id_song AS id, music_albums.id_music_album AS id_ma, music_albums.cover, music_albums.title AS ma_title, music_albums.release_date FROM rates, songs, music_albums WHERE song IS NOT NULL AND songs.id_song = rates.song AND songs.music_album = music_albums.id_music_album AND user = (SELECT users.id_user FROM users WHERE username = ?) AND favourites = ? ORDER BY rating_date ASC LIMIT ? OFFSET ?",
+        [username, favourite, limit, offset],
         (error, result) => {
           if (error) {
             return reject(error);
@@ -330,8 +406,8 @@ db.getAllRatesSongsByUserQueryFilter = (
   } else if (sort_value === "numerical-rating" && sort_order === "ASC") {
     return new Promise((resolve, reject) => {
       pool.query(
-        "SELECT rates.*, songs.title, songs.id_song AS id, music_albums.id_music_album AS id_ma, music_albums.cover, music_albums.title AS ma_title, music_albums.release_date FROM rates, songs, music_albums WHERE song IS NOT NULL AND songs.id_song = rates.song AND songs.music_album = music_albums.id_music_album AND user = (SELECT users.id_user FROM users WHERE username = ?) AND favourites = ? ORDER BY numerical_rating ASC",
-        [username, favourite],
+        "SELECT rates.*, songs.title, songs.id_song AS id, music_albums.id_music_album AS id_ma, music_albums.cover, music_albums.title AS ma_title, music_albums.release_date FROM rates, songs, music_albums WHERE song IS NOT NULL AND songs.id_song = rates.song AND songs.music_album = music_albums.id_music_album AND user = (SELECT users.id_user FROM users WHERE username = ?) AND favourites = ? ORDER BY numerical_rating ASC LIMIT ? OFFSET ?",
+        [username, favourite, limit, offset],
         (error, result) => {
           if (error) {
             return reject(error);
@@ -343,8 +419,8 @@ db.getAllRatesSongsByUserQueryFilter = (
   } else if (sort_value === "numerical-rating" && sort_order === "DESC") {
     return new Promise((resolve, reject) => {
       pool.query(
-        "SELECT rates.*, songs.title, songs.id_song AS id, music_albums.id_music_album AS id_ma, music_albums.cover, music_albums.title AS ma_title, music_albums.release_date FROM rates, songs, music_albums WHERE song IS NOT NULL AND songs.id_song = rates.song AND songs.music_album = music_albums.id_music_album AND user = (SELECT users.id_user FROM users WHERE username = ?) AND favourites = ? ORDER BY numerical_rating DESC",
-        [username, favourite],
+        "SELECT rates.*, songs.title, songs.id_song AS id, music_albums.id_music_album AS id_ma, music_albums.cover, music_albums.title AS ma_title, music_albums.release_date FROM rates, songs, music_albums WHERE song IS NOT NULL AND songs.id_song = rates.song AND songs.music_album = music_albums.id_music_album AND user = (SELECT users.id_user FROM users WHERE username = ?) AND favourites = ? ORDER BY numerical_rating DESC LIMIT ? OFFSET ?",
+        [username, favourite, limit, offset],
         (error, result) => {
           if (error) {
             return reject(error);

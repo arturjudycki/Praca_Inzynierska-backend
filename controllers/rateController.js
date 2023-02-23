@@ -86,6 +86,12 @@ get_all_rates_albums_by_user_query = async (req, res) => {
     let sort_value;
     let sort_order;
     let rates;
+    let length;
+    const limit = 5;
+    const page_index = parseInt(req.query.page) || 1;
+
+    const offset = limit * (page_index - 1);
+
     if (sortBy === undefined) {
       sort_value = "rating-date";
       sort_order = "DESC";
@@ -100,20 +106,29 @@ get_all_rates_albums_by_user_query = async (req, res) => {
       rates = await dbManageRates.getAllRatesAlbumsByUserQuery(
         username,
         sort_value,
-        sort_order
+        sort_order,
+        limit,
+        offset
       );
+      length = await dbManageRates.getLengthOfRatesAlbumsByUserQuery(username);
     } else {
       rates = await dbManageRates.getAllRatesAlbumsByUserQueryFilter(
         username,
         favourite,
         sort_value,
-        sort_order
+        sort_order,
+        limit,
+        offset
+      );
+      length = await dbManageRates.getLengthOfRatesAlbumsByUserQueryFilter(
+        username,
+        favourite
       );
     }
     if (rates === undefined) {
       return res.sendStatus(404);
     }
-    return res.json(rates);
+    return res.json({ rates, length });
   } catch (e) {
     console.log(e);
     return res.sendStatus(500);
@@ -158,6 +173,19 @@ get_all_rates_songs_by_user_query = async (req, res) => {
     let sort_value;
     let sort_order;
     let rates;
+    let length;
+    const limit = 5;
+    let offset;
+    let page_index;
+    const page = req.query.page;
+    if (page === undefined) {
+      page_index = 1;
+      offset = 0;
+    } else {
+      page_index = parseInt(req.query.page);
+      offset = limit * (page_index - 1);
+    }
+
     if (sortBy === undefined) {
       sort_value = "rating-date";
       sort_order = "DESC";
@@ -172,20 +200,28 @@ get_all_rates_songs_by_user_query = async (req, res) => {
       rates = await dbManageRates.getAllRatesSongsByUserQuery(
         username,
         sort_value,
-        sort_order
+        sort_order,
+        limit,
+        offset
       );
+      length = await dbManageRates.getLengthOfRatesSongsByUserQuery(username);
     } else {
       rates = await dbManageRates.getAllRatesSongsByUserQueryFilter(
         username,
         favourite,
         sort_value,
-        sort_order
+        sort_order,
+        limit,
+        offset
+      );
+      length = await dbManageRates.getLengthOfRatesSongsByUserQueryFilter(
+        username
       );
     }
     if (rates === undefined) {
       return res.sendStatus(404);
     }
-    return res.json(rates);
+    return res.json({ rates, length });
   } catch (e) {
     console.log(e);
     return res.sendStatus(500);
