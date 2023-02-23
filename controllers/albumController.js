@@ -198,35 +198,35 @@ get_top_100_list_of_albums = async (req, res) => {
 
     if (releaseDate !== undefined) {
       switch (releaseDate) {
-        case "1950":
+        case "1950s":
           beginDate = "1950-01-01";
           endDate = "1959-12-31";
           break;
-        case "1960":
+        case "1960s":
           beginDate = "1960-01-01";
           endDate = "1969-12-31";
           break;
-        case "1970":
+        case "1970s":
           beginDate = "1970-01-01";
           endDate = "1979-12-31";
           break;
-        case "1980":
+        case "1980s":
           beginDate = "1980-01-01";
           endDate = "1989-12-31";
           break;
-        case "1990":
+        case "1990s":
           beginDate = "1990-01-01";
           endDate = "1999-12-31";
           break;
-        case "2000":
+        case "2000s":
           beginDate = "2000-01-01";
           endDate = "2009-12-31";
           break;
-        case "2010":
+        case "2010s":
           beginDate = "2010-01-01";
           endDate = "2019-12-31";
           break;
-        case "2020":
+        case "2020s":
           beginDate = "2020-01-01";
           endDate = "2029-12-31";
           break;

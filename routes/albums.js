@@ -29,12 +29,12 @@ const upload = multer({
       (file.mimetype == "image/png" ||
         file.mimetype == "image/jpg" ||
         file.mimetype == "image/jpeg") &&
-      fileSize <= 51200
+      fileSize <= 102400
     ) {
       cb(null, true);
     } else {
       req.fileValidationError =
-        "Only .png, .jpg and .jpeg format allowed and image must have less than 50kB!";
+        "Only .png, .jpg and .jpeg format allowed and image must have less than 100kB!";
       return cb(null, false, req.fileValidationError);
     }
   },
