@@ -132,7 +132,7 @@ db.getAllAlbums = () => {
 db.getLastAlbums = () => {
   return new Promise((resolve, reject) => {
     pool.query(
-      "SELECT * FROM music_albums ORDER BY id_music_album DESC",
+      "SELECT * FROM music_albums ORDER BY id_music_album DESC LIMIT 12",
       (error, result) => {
         if (error) {
           return reject(error);

@@ -49,6 +49,12 @@ router.get(
 );
 
 router.get(
+  "/:song/getRateSongByUserTracklist",
+  rate_controller.get_rate_song_by_user_tracklist
+);
+
+
+router.get(
   "/:song/getStatisticsOfSong",
   rate_controller.get_statistics_of_song
 );

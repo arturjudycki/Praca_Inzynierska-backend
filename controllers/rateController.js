@@ -151,6 +151,26 @@ get_rate_song_by_user = async (req, res) => {
   }
 };
 
+get_rate_song_by_user_tracklist = async (req, res) => {
+  try {
+    const song = req.params.song;
+    const user = req.session.user;
+
+    if (user === undefined) {
+      return res.json(null);
+    } else {
+      const rate = await dbManageRates.getRateSongByUser(song, user);
+      if (rate === undefined) {
+        return res.json(null);
+      }
+      return res.json(rate);
+    }
+  } catch (e) {
+    console.log(e);
+    return res.sendStatus(500);
+  }
+};
+
 get_all_rates_songs_by_user = async (req, res) => {
   try {
     const username = req.params.username;
@@ -309,6 +329,7 @@ module.exports = {
   add_rate_song,
   get_rate_album_by_user,
   get_rate_song_by_user,
+  get_rate_song_by_user_tracklist,
   get_all_rates_albums_by_user,
   get_all_rates_albums_by_user_query,
   get_all_rates_songs_by_user,
