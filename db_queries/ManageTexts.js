@@ -52,10 +52,40 @@ db.getAllTexts = () => {
   });
 };
 
-db.getTextsByIdUser = (id_user) => {
+db.getTextsByIdUserSearch = (id_user) => {
   return new Promise((resolve, reject) => {
     pool.query(
-      "SELECT * FROM texts WHERE user = ?",
+      "SELECT * FROM texts WHERE user = ? ORDER BY publication_date DESC",
+      [id_user],
+      (error, result) => {
+        if (error) {
+          return reject(error);
+        }
+        return resolve(result);
+      }
+    );
+  });
+};
+
+db.getTextsByIdUser = (id_user, limit, offset) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      "SELECT * FROM texts WHERE user = ? ORDER BY publication_date DESC LIMIT ? OFFSET ?",
+      [id_user, limit, offset],
+      (error, result) => {
+        if (error) {
+          return reject(error);
+        }
+        return resolve(result);
+      }
+    );
+  });
+};
+
+db.getLengthOfTextsByIdUser = (id_user) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      "SELECT COUNT(id_text) AS counts FROM texts WHERE user = ?",
       [id_user],
       (error, result) => {
         if (error) {

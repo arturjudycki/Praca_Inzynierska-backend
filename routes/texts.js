@@ -13,6 +13,13 @@ router.get(
   text_controller.get_texts_by_id_user
 );
 
+router.get(
+  "/getTextsByIdUserSearch",
+  helpers.isAuthenticated,
+  helpers.isEditorOrAdmin,
+  text_controller.get_texts_by_id_user_search
+);
+
 router.get("/allTexts", text_controller.get_all_texts);
 
 router.get("/article", text_controller.get_text_by_article);

@@ -1,11 +1,35 @@
 const { validationResult } = require("express-validator");
 const dbManageTexts = require("../db_queries/ManageTexts");
 
-get_texts_by_id_user = async (req, res) => {
+get_texts_by_id_user_search = async (req, res) => {
   try {
     const id_user = req.session.user;
-    const texts = await dbManageTexts.getTextsByIdUser(id_user);
+    const texts = await dbManageTexts.getTextsByIdUserSearch(id_user);
     return res.json(texts);
+  } catch (e) {
+    console.log(e);
+    return res.sendStatus(500);
+  }
+};
+
+get_texts_by_id_user = async (req, res) => {
+  try {
+    let length;
+    const limit = 5;
+    let offset;
+    let page_index;
+    const page = req.query.page;
+    if (page === undefined) {
+      page_index = 1;
+      offset = 0;
+    } else {
+      page_index = parseInt(req.query.page);
+      offset = limit * (page_index - 1);
+    }
+    const id_user = req.session.user;
+    const texts = await dbManageTexts.getTextsByIdUser(id_user, limit, offset);
+    length = await dbManageTexts.getLengthOfTextsByIdUser(id_user);
+    return res.json({ texts, length });
   } catch (e) {
     console.log(e);
     return res.sendStatus(500);
@@ -133,6 +157,7 @@ get_text_by_interview = async (req, res) => {
 
 module.exports = {
   get_texts_by_id_user,
+  get_texts_by_id_user_search,
   get_text_by_id_text,
   create_text,
   update_text,
