@@ -105,9 +105,9 @@ update_text = async (req, res) => {
   }
 };
 
-get_all_texts = async (req, res) => {
+get_newest_texts = async (req, res) => {
   try {
-    const texts = await dbManageTexts.getAllTexts();
+    const texts = await dbManageTexts.getNewestTexts();
     return res.json(texts);
   } catch (e) {
     console.log(e);
@@ -115,40 +115,37 @@ get_all_texts = async (req, res) => {
   }
 };
 
-get_text_by_article = async (req, res) => {
+get_texts = async (req, res) => {
   try {
-    const articles = await dbManageTexts.getTextsByArticle();
-    return res.json(articles);
-  } catch (e) {
-    console.log(e);
-    return res.sendStatus(500);
-  }
-};
+    const type_of_text = req.query.type_of_text;
+    const page = req.query.page;
+    let texts;
+    let length;
 
-get_text_by_news = async (req, res) => {
-  try {
-    const news = await dbManageTexts.getTextsByNews();
-    return res.json(news);
-  } catch (e) {
-    console.log(e);
-    return res.sendStatus(500);
-  }
-};
+    const limit = 9;
+    let page_index;
+    let offset;
 
-get_text_by_ranking = async (req, res) => {
-  try {
-    const rankings = await dbManageTexts.getTextsByRanking();
-    return res.json(rankings);
-  } catch (e) {
-    console.log(e);
-    return res.sendStatus(500);
-  }
-};
+    if (page === undefined) {
+      offset = 0;
+    } else {
+      page_index = parseInt(page);
+      offset = limit * (page_index - 1);
+    }
 
-get_text_by_interview = async (req, res) => {
-  try {
-    const interview = await dbManageTexts.getTextsByInterview();
-    return res.json(interview);
+    if (type_of_text === undefined) {
+      texts = await dbManageTexts.getAllTexts(limit, offset);
+      length = await dbManageTexts.getLengthOfTexts();
+      return res.json({ texts, length });
+    } else {
+      texts = await dbManageTexts.getTextsByTypeOfText(
+        type_of_text,
+        limit,
+        offset
+      );
+      length = await dbManageTexts.getLengthOfTextsByTypeOfText(type_of_text);
+      return res.json({ texts, length });
+    }
   } catch (e) {
     console.log(e);
     return res.sendStatus(500);
@@ -161,9 +158,6 @@ module.exports = {
   get_text_by_id_text,
   create_text,
   update_text,
-  get_all_texts,
-  get_text_by_article,
-  get_text_by_news,
-  get_text_by_ranking,
-  get_text_by_interview,
+  get_newest_texts,
+  get_texts,
 };

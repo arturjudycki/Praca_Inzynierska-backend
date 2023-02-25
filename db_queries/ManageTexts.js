@@ -41,14 +41,32 @@ db.updateText = (title, content, id_text) => {
   });
 };
 
-db.getAllTexts = () => {
+db.getTextByIdText = (id_text) => {
   return new Promise((resolve, reject) => {
-    pool.query("SELECT * FROM texts", (error, result) => {
-      if (error) {
-        return reject(error);
+    pool.query(
+      "SELECT texts.*, users.first_name, users.last_name FROM texts, users WHERE id_text = ? AND texts.user = users.id_user",
+      [id_text],
+      (error, result) => {
+        if (error) {
+          return reject(error);
+        }
+        return resolve(result[0]);
       }
-      return resolve(result);
-    });
+    );
+  });
+};
+
+db.getNewestTexts = () => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      "SELECT * FROM texts ORDER BY publication_date DESC LIMIT 6",
+      (error, result) => {
+        if (error) {
+          return reject(error);
+        }
+        return resolve(result);
+      }
+    );
   });
 };
 
@@ -97,11 +115,11 @@ db.getLengthOfTextsByIdUser = (id_user) => {
   });
 };
 
-db.getTextsByArticle = () => {
+db.getTextsByTypeOfText = (type_of_text, limit, offset) => {
   return new Promise((resolve, reject) => {
     pool.query(
-      "SELECT * FROM texts WHERE type_of_text = ?",
-      ["article"],
+      "SELECT * FROM texts WHERE type_of_text = ? ORDER BY publication_date DESC LIMIT ? OFFSET ?",
+      [type_of_text, limit, offset],
       (error, result) => {
         if (error) {
           return reject(error);
@@ -112,71 +130,41 @@ db.getTextsByArticle = () => {
   });
 };
 
-db.getTextsByNews = () => {
+db.getLengthOfTextsByTypeOfText = (type_of_text) => {
   return new Promise((resolve, reject) => {
     pool.query(
-      "SELECT * FROM texts WHERE type_of_text = ?",
-      ["news"],
-      (error, result) => {
-        if (error) {
-          return reject(error);
-        }
-        return resolve(result);
-      }
-    );
-  });
-};
-
-db.getTextsByRanking = () => {
-  return new Promise((resolve, reject) => {
-    pool.query(
-      "SELECT * FROM texts WHERE type_of_text = ?",
-      ["ranking"],
-      (error, result) => {
-        if (error) {
-          return reject(error);
-        }
-        return resolve(result);
-      }
-    );
-  });
-};
-
-db.getTextsByInterview = () => {
-  return new Promise((resolve, reject) => {
-    pool.query(
-      "SELECT * FROM texts WHERE type_of_text = ?",
-      ["interview"],
-      (error, result) => {
-        if (error) {
-          return reject(error);
-        }
-        return resolve(result);
-      }
-    );
-  });
-};
-
-db.getTextByIdText = (id_text) => {
-  return new Promise((resolve, reject) => {
-    pool.query(
-      "SELECT texts.*, users.first_name, users.last_name FROM texts, users WHERE id_text = ? AND texts.user = users.id_user",
-      [id_text],
-      (error, result) => {
-        if (error) {
-          return reject(error);
-        }
-        return resolve(result[0]);
-      }
-    );
-  });
-};
-
-db.getTextByTypeOfText = (type_of_text) => {
-  return new Promise((resolve, reject) => {
-    pool.query(
-      "SELECT * FROM texts WHERE type_of_text = ?",
+      "SELECT COUNT(id_text) AS counts FROM texts WHERE type_of_text = ?",
       [type_of_text],
+      (error, result) => {
+        if (error) {
+          return reject(error);
+        }
+        return resolve(result);
+      }
+    );
+  });
+};
+
+db.getAllTexts = (limit, offset) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      "SELECT * FROM texts ORDER BY publication_date DESC LIMIT ? OFFSET ?",
+      [limit, offset],
+      (error, result) => {
+        if (error) {
+          return reject(error);
+        }
+        return resolve(result);
+      }
+    );
+  });
+};
+
+db.getLengthOfTexts = () => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      "SELECT COUNT(id_text) AS counts FROM texts",
+      [],
       (error, result) => {
         if (error) {
           return reject(error);

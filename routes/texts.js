@@ -20,15 +20,10 @@ router.get(
   text_controller.get_texts_by_id_user_search
 );
 
-router.get("/allTexts", text_controller.get_all_texts);
+router.get("/newestTexts", text_controller.get_newest_texts);
 
-router.get("/article", text_controller.get_text_by_article);
+router.get("/getTexts", text_controller.get_texts);
 
-router.get("/news", text_controller.get_text_by_news);
-
-router.get("/ranking", text_controller.get_text_by_ranking);
-
-router.get("/interview", text_controller.get_text_by_interview);
 
 router.post(
   "/createText",
