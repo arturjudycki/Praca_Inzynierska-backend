@@ -25,7 +25,7 @@ router.patch(
 router.delete(
   "/deleteComment",
   helpers.isAuthenticated,
-  helpers.isAdmin,
+  helpers.isAuthorOfCommentOrAdmin,
   comment_controller.delete_comment
 );
 
