@@ -40,7 +40,7 @@ db.emailExist = (email) => {
     );
   });
 };
-
+ 
 db.registerUser = (username, email, password) => {
   return new Promise((resolve, reject) => {
     pool.query(
@@ -116,11 +116,11 @@ db.insertResetToken = (email, tokenValue, createdAt, expiredAt, used) => {
   });
 };
 
-db.expireOldTokens = (email, used) => {
+db.setUsedToken = (token, used) => {
   return new Promise((resolve, reject) => {
     pool.query(
-      "UPDATE ResetPasswordToken SET used = ?  WHERE email = ?",
-      [used, email],
+      "UPDATE ResetPasswordToken SET used = ?  WHERE Token_value = ?",
+      [used, token],
       (error) => {
         if (error) {
           return reject(error);

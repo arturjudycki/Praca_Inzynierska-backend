@@ -141,7 +141,6 @@ send_email_link = async (req, res) => {
         .status(400)
         .send({ msg: "User with this email doesn't exist" });
     }
-    await db.expireOldTokens(email, 1);
 
     const resetToken = crypto.randomBytes(40).toString("hex");
     const resetTokenExpires = new Date(Date.now() + 60 * 60 * 1000);
@@ -174,8 +173,10 @@ reset_password = async (req, res) => {
   try {
     const password = hashPassword(req.body.password);
     const email = req.body.email;
+    const token = req.body.token;
     const user = await db.emailExist(email);
     await db.updateUserPassword(password, user[0].id_user);
+    await db.setUsedToken(token, 1);
     res.status(200).send({
       message:
         "Password reset successful, you can now login with the new password",
