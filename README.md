@@ -1,5 +1,5 @@
-# Backend (część serwerowa) pracy inżynierskiej pt.
-Projekt i implementacja systemu do opiniowania albumów muzycznych w postaci wortalu internetowego
+# Backend (część serwerowa) pracy inżynierskiej
+Wortal internetowy, którego to najważniejszą funkcjonalnością jest opiniowanie albumów muzycznych
 
 Stack technologiczny:
 * Framework Express oparty na środowisku Node.js
